@@ -12,17 +12,19 @@ import React, { useState } from 'react'
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import DateTimePicker from '@react-native-community/datetimepicker'
-// import ColorPicker, { Panel1, Swatches, Preview, OpacitySlider, HueSlider } from 'reanimated-color-picker';
+import Picker from '../Picker'
+
+
 
 export default function AddProject({ navigation }) {
 
   let today = new Date()
-  let fToday = today.getDate() + '/' + (today.getMonth() +1) + "/" + today.getFullYear()
+  let fToday = today.getDate() + '/' + (today.getMonth() + 1) + "/" + today.getFullYear()
 
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date')
   const [show, setShow] = useState(false)
-  const [text , setText] = useState(fToday)
+  const [text, setText] = useState(fToday)
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date
@@ -81,7 +83,9 @@ export default function AddProject({ navigation }) {
           <Text style={styles.dateInput}>{text}</Text>
         </TouchableOpacity>
 
-        <Text style = {styles.inputHeader}>Color Picker</Text>
+        <Text style={styles.inputHeader}>Color Picker</Text>
+            <Picker/>
+
 
         {show ? <DateTimePicker testID='dateTimePicker' value={date} mode={mode} display='default' onChange={onChange} /> : null}
 
