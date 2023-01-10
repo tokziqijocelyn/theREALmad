@@ -1,5 +1,6 @@
 
-import { StyleSheet } from 'react-native';
+
+import { TextInput, SafeAreaView, StyleSheet, StatusBar, FlatList, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -7,6 +8,18 @@ import AddProject from './Screens/AddProject'
 import Calendar from './Screens/Calendar'
 import {useFonts} from 'expo-font';
 import AppLoading from 'expo-app-loading';
+import Home from './Screens/Calendar';
+import SettingsScreen from './Screens/Settings';
+import ToDoListScreen from './Screens/ToDoListScreen';
+import GraphScreen from './Screens/GraphScreen';
+import TimerScreen from './Screens/Timer';
+
+import {
+  Ionicons,
+  Octicons,
+  MaterialCommunityIcons
+} from '@expo/vector-icons'
+
 
 
 export default function App() {
@@ -48,7 +61,6 @@ export default function App() {
   }
 
   return (
-
       <NavigationContainer>
         <Stack.Navigator >
           <Stack.Screen name="Calendar" animationType='slide' options={{
@@ -92,13 +104,11 @@ export default function App() {
 
         </Stack.Navigator>
 
-{/*         
-        <Tab.Navigator >
+        {/* <Tab.Navigator>
           <Tab.Screen
           name="Graph"
           component={GraphScreen}
           options={{tabBarIcon: GraphIcon}}
-          
           />
           <Tab.Screen
           name="Timer"
@@ -107,7 +117,7 @@ export default function App() {
           />
           <Tab.Screen
           name="Home"
-          component={HomeScreen}
+          component={Calendar}
           options={{ tabBarIcon: HomeIcon}}
           />
          <Tab.Screen
@@ -115,9 +125,11 @@ export default function App() {
           component={ToDoListScreen}
           options={{ tabBarIcon: ToDoListIcon,
           title: 'To Do List',
+          
             headerStyle: {
               backgroundColor: '#E9DCFF',
-              height:45
+              height:65,
+              borderRadius:50
             }
           }}
           />
@@ -135,6 +147,7 @@ export default function App() {
         </Tab.Navigator> */}
 
       </NavigationContainer>
+
 
   );
 }

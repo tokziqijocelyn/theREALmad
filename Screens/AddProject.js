@@ -1,12 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, Button } from 'react-native';
 import {
-  Ionicons,
-  FontAwesome,
-  MaterialIcons,
   AntDesign,
-  Octicons,
-  MaterialCommunityIcons
 } from '@expo/vector-icons';
 import React, { useState } from 'react'
 import { useFonts } from 'expo-font';
@@ -86,10 +81,15 @@ export default function AddProject({ navigation }) {
         <Text style={styles.inputHeader}>Color Picker</Text>
             <Picker/>
 
-
+            
         {show ? <DateTimePicker testID='dateTimePicker' value={date} mode={mode} display='default' onChange={onChange} /> : null}
 
       </View>
+
+      <TouchableOpacity style={styles.acceptIcon} onPress={() => navigation.navigate('Calendar')}>
+      <AntDesign name="checkcircle" size={50} color="#9842F5" />
+      </TouchableOpacity>
+
     </View>
   );
 }
@@ -120,13 +120,21 @@ const styles = StyleSheet.create({
   ,
   listOfInputs: {
     padding: 20,
-    margin: 10
+    margin: 10,
+    flex:5
   },
   inputHeader: {
     fontSize: 20,
     color: '#2A0052',
     fontFamily: "Lexend-Medium",
     margin: 3
+  },
+  acceptIcon:{
+    flex: 1,
+    borderColor: 'red',
+    justifyContent: 'center',
+    alignItems:'center',
+    margin: 10
   }
 
 });

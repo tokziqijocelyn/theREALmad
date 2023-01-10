@@ -1,19 +1,28 @@
-import { ColorPicker, TriangleColorPicker } from 'react-native-color-picker'
-import {View} from 'react-native'
-import React from 'react'
+import React, {useState} from 'react';
+import {StyleSheet, View} from 'react-native';
+import ColorPicker from 'react-native-wheel-color-picker';
 
+const App = () => {
+    const [color, setColor] = useState('');
 
-const Picker = () => (
-    <View>
-        <ColorPicker
-            onColorSelected={color => alert(`Color selected: ${color}`)}
-            hideControls = {false}
-            hideSliders = {false}
-            style = {{flex: 1}}
-        />
-
-        <TriangleColorPicker />
-    </View>
-)
-
-export default Picker
+    const onColorChange = color => {
+        setColor(color);
+    };
+    return (
+        <View style={
+            styles.sectionContainer
+        }>
+            <ColorPicker discretes={true}
+                onColorChangeComplete={
+                    color => console.log(color)
+                }/>
+        </View>
+    );
+};
+const styles = StyleSheet.create({
+    sectionContainer: {
+        flex: 1,
+        padding: 5
+    }
+});
+export default App;
