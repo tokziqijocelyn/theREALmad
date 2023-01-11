@@ -15,14 +15,17 @@ const App = () => {
             <ColorPicker discretes={true}
                 onColorChangeComplete={
                     color => console.log(color)
-                }/>
+                }
+                swatches={false}
+                onColorChange={onColorChange}/>
         </View>
     );
 };
 const styles = StyleSheet.create({
     sectionContainer: {
-        flex: 1,
-        padding: 5
+        padding: 0,
+        margin: 0,
+        backgroundColor: 'red'
     }
 });
 export default App;

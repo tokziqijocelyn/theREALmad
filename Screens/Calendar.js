@@ -31,10 +31,12 @@ export default function CalendarApp({ navigation }) {
             title: "DEUI CA2",
             date: "24/01/2023",
             daysLeft: "11 days left",
-            color: "#b09d0e"
+            color: "#ffedb3"
         },
 
     ]
+
+
 
     let [fontsLoaded] = useFonts({
         'Lexend-Medium': require('../assets/fonts/Lexend-Medium.ttf'),
@@ -43,12 +45,23 @@ export default function CalendarApp({ navigation }) {
     if (!fontsLoaded) {
         return <AppLoading />
     }
+    
 
     const renderItem = ({ item }) => {
-        return (
-            <TouchableOpacity style={styles.item}>
-                <Text style={{fontFamily:"Lexend-Medium", fontSize: 20}}>{item.title}</Text>
+        let color = item.color
+
+        return (<TouchableOpacity >
+            <View style={{flexDirection: 'row', backgroundColor: color ,padding: 15, margin: 7, borderRadius: 10, justifyContent: 'space-evenly'}}>
+                <View style={{flex:2}}>
+            
+                <Text style={{fontFamily:"Lexend-Medium", fontSize: 25}}>{item.title}</Text>
                 <Text style={{fontFamily:"Lexend-Medium"}}>{item.date}</Text>
+            
+                </View>
+                <View style ={{justifyContent: 'center', flex: 1}}>
+                <Text style={{fontFamily: "Lexend-Medium", color: '#9e1630', fontSize: 20, textAlign: 'center'}}>{item.daysLeft}</Text>
+                </View>
+            </View>
             </TouchableOpacity>
         )
     }
@@ -62,7 +75,7 @@ export default function CalendarApp({ navigation }) {
                     markedDates={{
                         '2023-01-16': { selected: true, selectedColor: '#ffc1bd' },
                         '2023-01-23': { selected: true, selectedColor: '#bdc4ff' },
-                        '2023-01-24': { selected: true, selectedColor: '#b09d0e' },
+                        '2023-01-24': { selected: true, selectedColor: '#ffedb3' },
                     }}
 
                 />
@@ -104,7 +117,6 @@ const styles = StyleSheet.create({
         flex: 3,
         paddingRight: 20,
         paddingLeft: 20,
-        // backgroundColor: 'red'
     },
     ListOfDates: {
         backgroundColor: '#E9DCFF',
@@ -120,11 +132,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "space-between",
         padding: 5,
+        margin:4
 
     },
     projectList: {
         flex: 5,
-        backgroundColor: 'red',
+        borderRadius: 20
     },
     item:{
         padding: 4,

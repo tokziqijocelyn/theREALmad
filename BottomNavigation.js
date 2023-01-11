@@ -70,6 +70,30 @@ const BottomNavigation = () => {
             }
             }>
 
+           
+            <Tab.Screen
+                name="Progress"
+                component={GraphScreen}
+                options={{ tabBarIcon: GraphIcon, showLabel: false, 
+                    headerStyle: {
+                        backgroundColor: '#E9DCFF',
+                        borderBottomEndRadius: 130,
+                        borderBottomStartRadius: 130,
+                    },
+
+                    headerTitleStyle: {
+                        fontWeight: 'bold',
+                        fontFamily: "Lexend-Medium"
+                    },
+
+                    headerTintColor: '#9842F5',
+                    headerTitleAlign: 'center',}}
+            />
+            <Tab.Screen
+                name="Timer"
+                component={TimerScreen}
+                options={{ tabBarIcon: timerIcon }}
+            /> 
             <Tab.Screen
                 name="Home"
                 component={CalendarStackNav}
@@ -78,16 +102,6 @@ const BottomNavigation = () => {
                     headerShown: false,
                 }}
 
-            />
-            <Tab.Screen
-                name="Graph"
-                component={GraphScreen}
-                options={{ tabBarIcon: GraphIcon, showLabel: false, }}
-            />
-            <Tab.Screen
-                name="Timer"
-                component={TimerScreen}
-                options={{ tabBarIcon: timerIcon }}
             />
 
             <Tab.Screen

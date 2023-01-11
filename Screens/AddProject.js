@@ -10,7 +10,6 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import Picker from '../Picker'
 
 
-
 export default function AddProject({ navigation }) {
 
   let today = new Date()
@@ -103,7 +102,7 @@ const styles = StyleSheet.create({
   },
   nameInput: {
     backgroundColor: '#E9DCFF',
-    padding: 12,
+    padding: 9,
     borderRadius: 15,
     marginBottom: 15,
     fontFamily: "Lexend-Medium",
@@ -111,7 +110,7 @@ const styles = StyleSheet.create({
   },
   dateInput: {
     backgroundColor: '#E9DCFF',
-    padding: 16,
+    padding: 11,
     borderRadius: 15,
     marginBottom: 15,
     color: '#2A0052',
@@ -134,7 +133,7 @@ const styles = StyleSheet.create({
     borderColor: 'red',
     justifyContent: 'center',
     alignItems:'center',
-    margin: 10
+    margin: 10,
   }
 
 });
