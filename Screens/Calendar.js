@@ -59,7 +59,7 @@ export default function CalendarApp({ navigation }) {
             
                 </View>
                 <View style ={{justifyContent: 'center', flex: 1}}>
-                <Text style={{fontFamily: "Lexend-Medium", color: '#9e1630', fontSize: 20, textAlign: 'center'}}>{item.daysLeft}</Text>
+                <Text style={{fontFamily: "Lexend-Medium", color: '#4B1A80', fontSize: 20, textAlign: 'center'}}>{item.daysLeft}</Text>
                 </View>
             </View>
             </TouchableOpacity>
@@ -92,7 +92,7 @@ export default function CalendarApp({ navigation }) {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.projectList}>
-                    <FlatList data={projects} renderItem={renderItem}> </FlatList>
+                    <FlatList data={projects} renderItem={renderItem}/>
                 </View>
             </View>
 
@@ -106,7 +106,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     touchableOpacityStyle: {
-        // borderWidth:1,
         borderRadius: 100,
         elevation: 3,
         shadowColor: 'rgba(155, 57, 222, 0.93)',
