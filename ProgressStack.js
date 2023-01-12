@@ -1,17 +1,17 @@
 
-
 import { createStackNavigator } from '@react-navigation/stack';
 import {StyleSheet} from 'react-native'
 
-import AddProject from './Screens/AddProject'
-import Calendar from './Screens/Calendar'
+import Graph from './Screens/GraphScreen'
 import {useFonts} from 'expo-font';
 import AppLoading from 'expo-app-loading';
+import AddGrades from './Screens/AddGrades';
 
 
 
 
-export default function CalendarStackNav() {
+export default function ProgressStack() {
+
 const Stack = createStackNavigator();
 
   let [fontsLoaded] = useFonts({
@@ -24,32 +24,27 @@ const Stack = createStackNavigator();
 
   return (
         <Stack.Navigator>
-          <Stack.Screen name="Calendar" animationType='slide' options={{
-            animation: 'slide_from_right',
-            animationTypeForReplace: 'push', 
-            title: "Home",
+          <Stack.Screen name="Progress"  
+          options={{                    
             headerStyle: {
-                backgroundColor: '#E9DCFF',
-                borderBottomEndRadius: 130,
-                borderBottomStartRadius: 130,
-              },
-  
-              headerTitleStyle: {
-                fontWeight: 'bold',
-                fontFamily: "Lexend-Medium"
-              },
-  
-              headerTintColor: '#9842F5',
-              headerTitleAlign: 'center',
+            backgroundColor: '#E9DCFF',
+            borderBottomEndRadius: 130,
+            borderBottomStartRadius: 130,
+        },
 
-          }}
+        headerTitleStyle: {
+            fontWeight: 'bold',
+            fontFamily: "Lexend-Medium"
+        },
 
-            component={Calendar} />
+        headerTintColor: '#9842F5',  
+        headerTitleAlign: 'center',}}
+            component={Graph} />
 
-          <Stack.Screen  name="AddProject" component={AddProject}
+          <Stack.Screen  name="AddGrades" component={AddGrades}
             options={{
               
-              title: "Add Project/Exam",
+              title: "Add Grade",
               headerTitleStyle: {
                 fontWeight: 'bold',
                 fontSize: 23,
@@ -73,4 +68,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  
 });

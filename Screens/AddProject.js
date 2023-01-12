@@ -12,6 +12,7 @@ import Picker from '../Picker'
 
 export default function AddProject({ navigation }) {
 
+
   let today = new Date()
   let fToday = today.getDate() + '/' + (today.getMonth() + 1) + "/" + today.getFullYear()
 
@@ -51,10 +52,6 @@ export default function AddProject({ navigation }) {
   if (!fontsLoaded) {
     return <AppLoading />
   }
-
-
-
-
 
   function nameInputHandler() {
 

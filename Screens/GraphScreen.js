@@ -5,11 +5,11 @@ import AppLoading from 'expo-app-loading';
 import Chart from '../Chart';
 import { AntDesign } from '@expo/vector-icons'; 
 
-const GraphScreen = () => {
+const GraphScreen = ({ navigation }) => {
 
   let [fontsLoaded] = useFonts({
     'Lexend-Medium': require('../assets/fonts/Lexend-Medium.ttf'),
-  });
+  }); 
 
   if (!fontsLoaded) {
     return <AppLoading />
@@ -46,13 +46,14 @@ const GraphScreen = () => {
         <View style = {styles.analysis}>
           <Text>
           <AntDesign name="star" size={10} color="#ffd014" />
-          <Text style={{fontSize: 11, fontFamily: "Lexend-Medium", color: '#fff'}}> Analysis: Improved from FEB! Keep it up! </Text>
+          <Text style={{fontSize: 15, fontFamily: "Lexend-Medium", color: '#fff'}}> Analysis: </Text>
           <AntDesign name="star" size={10} color="#ffd014" />
           </Text>
+          <Text style = {{fontSize: 15, fontFamily: "Lexend-Medium", color: '#fff'}}> Improved from FEB! Keep it up!</Text>
         </View>
 
         <View>
-          <TouchableOpacity >
+          <TouchableOpacity style ={{alignItems:'center'}} onPress={()=> navigation.navigate('AddGrades')}>
             <Text style = {styles.addGrade}>+ New Grades</Text>
           </TouchableOpacity>
         </View>
@@ -111,6 +112,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#9842F5",
     borderRadius: 20,
     fontFamily: "Lexend-Medium",
-    
+    textAlign: 'center',
+    padding: 10,
+    color: '#fff',
+    width:200,
+    justifyContent: 'center'
   }
 })

@@ -7,6 +7,7 @@ import SettingsScreen from './Screens/Settings';
 import ToDoListScreen from './Screens/ToDoListScreen';
 import GraphScreen from './Screens/GraphScreen';
 import TimerScreen from './Screens/Timer';
+import ProgressStack from './ProgressStack'
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 
@@ -73,21 +74,9 @@ const BottomNavigation = () => {
            
             <Tab.Screen
                 name="Progress"
-                component={GraphScreen}
+                component={ProgressStack}
                 options={{ tabBarIcon: GraphIcon, showLabel: false, 
-                    headerStyle: {
-                        backgroundColor: '#E9DCFF',
-                        borderBottomEndRadius: 130,
-                        borderBottomStartRadius: 130,
-                    },
-
-                    headerTitleStyle: {
-                        fontWeight: 'bold',
-                        fontFamily: "Lexend-Medium"
-                    },
-
-                    headerTintColor: '#9842F5',
-                    headerTitleAlign: 'center',}}
+                headerShown: false}}
             />
             <Tab.Screen
                 name="Timer"
