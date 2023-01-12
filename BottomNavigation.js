@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import CalendarStackNav from './CalendarStackNav';
 import SettingsScreen from './Screens/Settings';
-import ToDoListScreen from './Screens/ToDoListScreen';
+import ToDoListStack from './TodolistStack';
 import GraphScreen from './Screens/GraphScreen';
 import TimerScreen from './Screens/Timer';
 import ProgressStack from './ProgressStack'
@@ -16,6 +16,7 @@ import {
     Octicons,
     MaterialCommunityIcons
 } from '@expo/vector-icons'
+import TodolistStack from './TodolistStack';
 
 
 const Tab = createBottomTabNavigator();
@@ -68,8 +69,9 @@ const BottomNavigation = () => {
             }}
             tabBarOptions={{
                 showLabel: false,
-            }
-            }>
+                keyboardHidesTabBar: true
+            } }
+            >
 
            
             <Tab.Screen
@@ -95,7 +97,7 @@ const BottomNavigation = () => {
 
             <Tab.Screen
                 name="ToDoList"
-                component={ToDoListScreen}
+                component={TodolistStack}
                 options={{
                     tabBarIcon: ToDoListIcon,
                     title: 'To Do List',

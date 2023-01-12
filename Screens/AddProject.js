@@ -7,7 +7,7 @@ import React, { useState } from 'react'
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import DateTimePicker from '@react-native-community/datetimepicker'
-import Picker from '../Picker'
+import Picker from '../shared/Picker'
 
 
 export default function AddProject({ navigation }) {
@@ -81,10 +81,11 @@ export default function AddProject({ navigation }) {
         {show ? <DateTimePicker testID='dateTimePicker' value={date} mode={mode} display='default' onChange={onChange} /> : null}
 
       </View>
-
-      <TouchableOpacity style={styles.acceptIcon} onPress={() => navigation.navigate('Calendar')}>
+      <View style={styles.acceptIcon}>
+      <TouchableOpacity onPress={() => navigation.navigate('Calendar')}>
       <AntDesign name="checkcircle" size={50} color="#9842F5" />
       </TouchableOpacity>
+      </View>
 
     </View>
   );
@@ -127,7 +128,6 @@ const styles = StyleSheet.create({
   },
   acceptIcon:{
     flex: 1,
-    borderColor: 'red',
     justifyContent: 'center',
     alignItems:'center',
     margin: 10,

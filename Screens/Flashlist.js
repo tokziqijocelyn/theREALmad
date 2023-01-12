@@ -1,6 +1,6 @@
 import {FlashList} from '@shopify/flash-list'
 import {View, Text, TextInput, StyleSheet, Dimensions} from 'react-native'
-import DropDown from '../DropDown'
+import DropDown from '../shared/DropDown'
 import React from 'react'
 
 import { useFonts } from 'expo-font';

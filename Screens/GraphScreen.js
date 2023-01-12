@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import React from 'react'
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
-import Chart from '../Chart';
+import Chart from '../shared/Chart';
 import { AntDesign } from '@expo/vector-icons'; 
 
 const GraphScreen = ({ navigation }) => {
