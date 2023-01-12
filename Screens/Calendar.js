@@ -1,11 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
+
 import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Calendar } from 'react-native-calendars';
-import React, { useState } from 'react'
+import React from 'react'
 
-import { useFonts } from 'expo-font';
-import AppLoading from 'expo-app-loading';
 
 export default function CalendarApp({ navigation }) {
 
@@ -33,24 +31,14 @@ export default function CalendarApp({ navigation }) {
             daysLeft: "11 days left",
             color: "#ffedb3"
         },
-
     ]
-
-
-
-    let [fontsLoaded] = useFonts({
-        'Lexend-Medium': require('../assets/fonts/Lexend-Medium.ttf'),
-    });
-
-    if (!fontsLoaded) {
-        return <AppLoading />
-    }
     
 
     const renderItem = ({ item }) => {
         let color = item.color
 
-        return (<TouchableOpacity >
+        return (
+        <TouchableOpacity >
             <View style={{flexDirection: 'row', backgroundColor: color ,padding: 15, margin: 7, borderRadius: 10, justifyContent: 'space-evenly'}}>
                 <View style={{flex:2}}>
             
@@ -119,7 +107,7 @@ const styles = StyleSheet.create({
     },
     ListOfDates: {
         backgroundColor: '#E9DCFF',
-        flex: 2,
+        flex: 1.9,
         borderTopEndRadius: 30,
         borderTopStartRadius: 30,
         padding: 12,

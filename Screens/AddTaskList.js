@@ -19,6 +19,7 @@ const AddTask = () => {
       {key:'8', value:'Biology'},
       {key:'9', value:'Others'},
   ]
+  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Task Title :</Text>
@@ -69,7 +70,9 @@ const styles = StyleSheet.create({
     
   },
   container:{
-    marginTop:10
+    backgroundColor:'#fff',
+    flex:1,
+    padding: 20
   },
   
   title:{

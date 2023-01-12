@@ -5,28 +5,14 @@ import {StyleSheet} from 'react-native'
 
 import AddProject from './Screens/AddProject'
 import Calendar from './Screens/Calendar'
-import {useFonts} from 'expo-font';
-import AppLoading from 'expo-app-loading';
-
-
-
 
 export default function CalendarStackNav() {
 const Stack = createStackNavigator();
 
-  let [fontsLoaded] = useFonts({
-    'Lexend-Medium': require('./assets/fonts/Lexend-Medium.ttf'),
-  });
-
-  if (!fontsLoaded){
-    return <AppLoading/>
-  }
 
   return (
         <Stack.Navigator>
-          <Stack.Screen name="Calendar" animationType='slide' options={{
-            animation: 'slide_from_right',
-            animationTypeForReplace: 'push', 
+          <Stack.Screen name="Calendar" options={{
             title: "Home",
             headerStyle: {
                 backgroundColor: '#E9DCFF',
@@ -36,7 +22,8 @@ const Stack = createStackNavigator();
   
               headerTitleStyle: {
                 fontWeight: 'bold',
-                fontFamily: "Lexend-Medium"
+                fontFamily: "Lexend-Medium",
+                
               },
   
               headerTintColor: '#9842F5',

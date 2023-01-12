@@ -8,19 +8,6 @@ import {
   Octicons,
   MaterialCommunityIcons
 } from '@expo/vector-icons'
-import { useState } from "react";
-
-const MoonIcon = ({ focused, color, size }) => {
-  return <MaterialCommunityIcons name="weather-night" size={24} color={"black"} />;
-};
-
-const BellIcon = ({ focused, color, size }) => {
-  return <MaterialCommunityIcons name="bell-badge" size={24} color={"black"} />;
-};
-
-
-
-
 
 class SettingsList extends Component {
   constructor() {

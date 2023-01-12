@@ -1,19 +1,9 @@
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { useFonts } from 'expo-font';
-import AppLoading from 'expo-app-loading';
 import Chart from '../shared/Chart';
 import { AntDesign } from '@expo/vector-icons'; 
 
 const GraphScreen = ({ navigation }) => {
-
-  let [fontsLoaded] = useFonts({
-    'Lexend-Medium': require('../assets/fonts/Lexend-Medium.ttf'),
-  }); 
-
-  if (!fontsLoaded) {
-    return <AppLoading />
-  }
 
 
   return (

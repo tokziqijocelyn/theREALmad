@@ -4,33 +4,20 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import CalendarStackNav from './CalendarStackNav';
 import SettingsScreen from './Screens/Settings';
-import ToDoListStack from './TodolistStack';
-import GraphScreen from './Screens/GraphScreen';
+import TodolistStack from './TodolistStack';
+
 import TimerScreen from './Screens/Timer';
 import ProgressStack from './ProgressStack'
-import { useFonts } from 'expo-font';
-import AppLoading from 'expo-app-loading';
 
 import {
     Ionicons,
     Octicons,
     MaterialCommunityIcons
 } from '@expo/vector-icons'
-import TodolistStack from './TodolistStack';
-
 
 const Tab = createBottomTabNavigator();
 
 const BottomNavigation = () => {
-
-    let [fontsLoaded] = useFonts({
-        'Lexend-Medium': require('./assets/fonts/Lexend-Medium.ttf'),
-    });
-
-    if (!fontsLoaded) {
-        return <AppLoading />
-    }
-
 
     const HomeIcon = ({ focused, color, size }) => {
         let iconName = focused ? (size = 35, color = "#FFF") : (size = 26, color = "#2A0052")
@@ -83,7 +70,22 @@ const BottomNavigation = () => {
             <Tab.Screen
                 name="Timer"
                 component={TimerScreen}
-                options={{ tabBarIcon: timerIcon }}
+                options={{ tabBarIcon: timerIcon ,  
+                    headerStyle: {
+                    backgroundColor: '#E9DCFF',
+                    borderBottomEndRadius: 130,
+                    borderBottomStartRadius: 130,
+                  },
+      
+                  headerTitleStyle: {
+                    fontWeight: 'bold',
+                    fontFamily: "Lexend-Medium",
+                    
+                  },
+      
+                  headerTintColor: '#9842F5',
+                  headerTitleAlign: 'center',
+    }}
             /> 
             <Tab.Screen
                 name="Home"
@@ -91,6 +93,7 @@ const BottomNavigation = () => {
                 options={{
                     tabBarIcon: HomeIcon,
                     headerShown: false,
+                    
                 }}
 
             />
@@ -101,22 +104,11 @@ const BottomNavigation = () => {
                 options={{
                     tabBarIcon: ToDoListIcon,
                     title: 'To Do List',
+                    headerShown: false
 
-                    headerStyle: {
-                        backgroundColor: '#E9DCFF',
-                        borderBottomEndRadius: 130,
-                        borderBottomStartRadius: 130,
-                    },
-
-                    headerTitleStyle: {
-                        fontWeight: 'bold',
-                        fontFamily: "Lexend-Medium"
-                    },
-
-                    headerTintColor: '#9842F5',
-                    headerTitleAlign: 'center',
                 }}
             />
+
             <Tab.Screen
                 name="Settings"
                 component={SettingsScreen}

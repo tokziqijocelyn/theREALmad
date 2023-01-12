@@ -1,4 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
+
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, Button } from 'react-native';
 import {
   AntDesign,

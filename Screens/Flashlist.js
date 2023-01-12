@@ -3,18 +3,8 @@ import {View, Text, TextInput, StyleSheet, Dimensions} from 'react-native'
 import DropDown from '../shared/DropDown'
 import React from 'react'
 
-import { useFonts } from 'expo-font';
-import AppLoading from 'expo-app-loading';
-
 export default function List(){
 
-    let [fontsLoaded] = useFonts({
-        'Lexend-Medium': require('../assets/fonts/Lexend-Medium.ttf'),
-    });
-
-    if (!fontsLoaded) {
-        return <AppLoading />
-    }
 
     const modules = [
         {id:1, module: "Module 1:"},

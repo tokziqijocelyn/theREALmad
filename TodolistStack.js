@@ -1,9 +1,8 @@
 import React from 'react';
-import {NavigationContainer, StyleSheet} from"@react-navigation/native"
 import {createStackNavigator} from '@react-navigation/stack'
 
 import TodolistScreen from './Screens/ToDoListScreen';
-import AddTaskPageScreen from './Screens/AddTask2';
+import AddTaskPageScreen from './Screens/AddTaskList';
 
 
 // 1. createStackNavigator
