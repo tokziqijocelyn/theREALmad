@@ -71,7 +71,8 @@ const AddGrades = ({navigation}) => {
         <TouchableOpacity onPress={()=>{
           alert("GPA Updated!")
           navigation.navigate('Progress')
-        }}>
+        }}
+        style={{alignItems:'center'}}>
         <AntDesign name="checkcircle" size={50} color="#9842F5" />
         </TouchableOpacity>
         </ScrollView>

@@ -9,7 +9,32 @@ import AppLoading from 'expo-app-loading';
 
 export default function CalendarApp({ navigation }) {
 
+    const projects = [
+        {
+            id: 1,
+            title: "BED CA3",
+            date: "16/01/2023",
+            daysLeft: "3 days left",
+            color: "#ffc1bd"
+        },
 
+        {
+            id: 2,
+            title: "Java MST",
+            date: "23/01/2023",
+            daysLeft: "10 days left",
+            color: "#bdc4ff"
+        },
+
+        {
+            id: 3,
+            title: "DEUI CA2",
+            date: "24/01/2023",
+            daysLeft: "11 days left",
+            color: "#ffedb3"
+        },
+
+    ]
 
 
 
@@ -21,6 +46,25 @@ export default function CalendarApp({ navigation }) {
         return <AppLoading />
     }
     
+
+    const renderItem = ({ item }) => {
+        let color = item.color
+
+        return (<TouchableOpacity >
+            <View style={{flexDirection: 'row', backgroundColor: color ,padding: 15, margin: 7, borderRadius: 10, justifyContent: 'space-evenly'}}>
+                <View style={{flex:2}}>
+            
+                <Text style={{fontFamily:"Lexend-Medium", fontSize: 22}}>{item.title}</Text>
+                <Text style={{fontFamily:"Lexend-Medium"}}>{item.date}</Text>
+            
+                </View>
+                <View style ={{justifyContent: 'center', flex: 1}}>
+                <Text style={{fontFamily: "Lexend-Medium", color: '#4B1A80', fontSize: 20, textAlign: 'center'}}>{item.daysLeft}</Text>
+                </View>
+            </View>
+            </TouchableOpacity>
+        )
+    }
 
     return (
         <View style={styles.container}>
@@ -48,7 +92,7 @@ export default function CalendarApp({ navigation }) {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.projectList}>
-                    
+                    <FlatList data={projects} renderItem={renderItem}/>
                 </View>
             </View>
 
