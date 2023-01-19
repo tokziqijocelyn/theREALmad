@@ -5,17 +5,9 @@ import TodolistScreen from './Screens/ToDoListScreen';
 import AddTaskPageScreen from './Screens/AddTaskList';
 
 
-// 1. createStackNavigator
-// 2. NavigationContainer
-// 3. create HomeScreen component & ScheduleScreenComponent
-// 4. Stack.Screen
-
-
 export default function TodolistStack() {
 
 const Stack = createStackNavigator();
-
-  
 
   return (
         <Stack.Navigator>

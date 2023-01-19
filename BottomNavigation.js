@@ -114,11 +114,22 @@ const BottomNavigation = () => {
                 component={SettingsScreen}
                 options={{
                     tabBarIcon: SettingsIcon,
-                    title: 'Settings',
                     headerStyle: {
-                        backgroundColor: '#E9DCFF'
-
-                    }
+                        backgroundColor: '#E9DCFF',
+                        borderBottomEndRadius: 130,
+                        borderBottomStartRadius: 130,
+                      },
+          
+                      headerTitleStyle: {
+                        fontWeight: 'bold',
+                        fontFamily: "Lexend-Medium",
+                        
+                      },
+          
+                      headerTintColor: '#9842F5',
+                      headerTitleAlign: 'center',
+                        
+                    
                 }}
             />
         </Tab.Navigator>

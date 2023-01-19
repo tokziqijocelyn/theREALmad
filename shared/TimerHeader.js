@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Platform, Text, StyleSheet } from "react-native";
+import { Text, StyleSheet } from "react-native";
 
 
 class TimerHeader extends Component {
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     fontWeight:'semi-bold',
     fontFamily:'Lexend-Medium',
     position:'absolute',
-    bottom:60
+    bottom:30
     
   }
 });

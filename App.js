@@ -1,8 +1,11 @@
-import React from 'react'
+import React from 'react';
 import BottomNavigation from './BottomNavigation'
 
-
+import {View} from 'react-native'
 import { NavigationContainer, DefaultTheme} from '@react-navigation/native'
+import SplashScreen from './splashScreen';
+
+
 
 const MyTheme = {
   ...DefaultTheme,
@@ -13,10 +16,12 @@ const MyTheme = {
 };
 
 const App = () => {
+
   return (
     <NavigationContainer theme={MyTheme}>
       <BottomNavigation />
       </NavigationContainer>
+
   )
 }
 

@@ -169,6 +169,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.4,
     shadowRadius: 10,
+    fontFamily:"Lexend-Medium"
   
   },
   title: {
@@ -176,7 +177,7 @@ const styles = StyleSheet.create({
     padding:10,
     color: '#000000',
     fontWeight:'bold',
-    fontFamily:'Lexend-Medium'
+
   
   },
   font1 :{
