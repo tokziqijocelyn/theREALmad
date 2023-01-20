@@ -8,7 +8,7 @@ import SplashScreen from './splashScreen';
 
 
 const MyTheme = {
-  ...DefaultTheme,
+  ...DefaultTheme, 
   colors: {
     ...DefaultTheme.colors,
     background: 'white'

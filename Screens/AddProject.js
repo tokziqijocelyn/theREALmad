@@ -13,6 +13,8 @@ import Picker from '../shared/Picker'
 export default function AddProject({ navigation }) {
 
 
+  const [title, setTitle] = useState('');
+
   let today = new Date()
   let fToday = today.getDate() + '/' + (today.getMonth() + 1) + "/" + today.getFullYear()
 
@@ -45,29 +47,25 @@ export default function AddProject({ navigation }) {
   };
 
 
-  let [fontsLoaded] = useFonts({
-    'Lexend-Medium': require('../assets/fonts/Lexend-Medium.ttf'),
-  });
 
-  if (!fontsLoaded) {
-    return <AppLoading />
+  function nameInputHandler(newTitle) {
+    setTitle(newTitle)
   }
 
-  function nameInputHandler() {
-
+  function dateInputHandler(newDate){
+    setDate(newDate)
   }
 
-  function addNameHandler() {
+  function makeList(newTitle, newDate, newColor){
 
   }
-
-
 
   return (
     <View style={styles.container}>
       <View style={styles.listOfInputs}>
         <Text style={styles.inputHeader}>Title</Text>
-        <TextInput style={styles.nameInput} placeholder="Name of project/exam" placeholderTextColor="#D984E8" />
+        <TextInput style={styles.nameInput} placeholder="Name of project/exam" placeholderTextColor="#D984E8" 
+        onChangeText={nameInputHandler}/>
 
         <Text style={styles.inputHeader}>Date</Text>
         <TouchableOpacity onPress={() => { showMode('date') }}>
@@ -76,8 +74,6 @@ export default function AddProject({ navigation }) {
 
         <Text style={styles.inputHeader}>Color Picker</Text>
             <Picker/>
-
-            
         {show ? <DateTimePicker testID='dateTimePicker' value={date} mode={mode} display='default' onChange={onChange} /> : null}
 
       </View>
