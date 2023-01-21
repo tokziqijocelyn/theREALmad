@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import ColorPicker from 'react-native-wheel-color-picker';
 
-const App = () => {
-    const [color, setColor] = useState('');
+const App = ({color, setColor}) => {
+
+
 
     const onColorChange = color => {
         setColor(color);
@@ -14,10 +15,10 @@ const App = () => {
         }>
             <ColorPicker discretes={true}
                 onColorChangeComplete={
-                    color => console.log(color)
+                    onColorChange
                 }
                 swatches={false}
-                onColorChange={onColorChange}/>
+                />
         </View>
     );
 };

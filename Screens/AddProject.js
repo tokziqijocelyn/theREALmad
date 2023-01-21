@@ -4,17 +4,25 @@ import {
   AntDesign,
 } from '@expo/vector-icons';
 import React, { useState } from 'react'
-import { useFonts } from 'expo-font';
-import AppLoading from 'expo-app-loading';
 import DateTimePicker from '@react-native-community/datetimepicker'
 import Picker from '../shared/Picker'
 
 
-export default function AddProject({ navigation }) {
+export default function AddProject({ navigation} ) {
+
+  var formattedDate = '';
+  //COLOR HANDLER
+  const [color, setColor] = useState('');
 
 
+  //TITLE HANDLER
   const [title, setTitle] = useState('');
+  function nameInputHandler(newTitle) {
+    setTitle(newTitle)
+    console.log(newTitle)
+  }
 
+  //DATE HANDLER
   let today = new Date()
   let fToday = today.getDate() + '/' + (today.getMonth() + 1) + "/" + today.getFullYear()
 
@@ -29,10 +37,9 @@ export default function AddProject({ navigation }) {
     setDate(currentDate)
 
     let tempDate = new Date(currentDate)
-    let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear()
+    let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear() 
     setText(fDate)
-
-    console.log(fDate)
+    formattedDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() 
 
   }
 
@@ -41,16 +48,6 @@ export default function AddProject({ navigation }) {
     setMode(currentMode)
   }
 
-  const onSelectColor = ({ hex }) => {
-    // do something with the selected color.
-    console.log(hex);
-  };
-
-
-
-  function nameInputHandler(newTitle) {
-    setTitle(newTitle)
-  }
 
   function dateInputHandler(newDate){
     setDate(newDate)
@@ -59,6 +56,7 @@ export default function AddProject({ navigation }) {
   function makeList(newTitle, newDate, newColor){
 
   }
+ 
 
   return (
     <View style={styles.container}>
@@ -73,7 +71,8 @@ export default function AddProject({ navigation }) {
         </TouchableOpacity>
 
         <Text style={styles.inputHeader}>Color Picker</Text>
-            <Picker/>
+            <Picker setColor={(color)=>{console.log(color)}}/>
+
         {show ? <DateTimePicker testID='dateTimePicker' value={date} mode={mode} display='default' onChange={onChange} /> : null}
 
       </View>
@@ -94,7 +93,7 @@ const styles = StyleSheet.create({
     fontFamily: "Lexend-Medium"
 
   },
-  nameInput: {
+  nameInput: { 
     backgroundColor: '#E9DCFF',
     padding: 9,
     borderRadius: 15,
