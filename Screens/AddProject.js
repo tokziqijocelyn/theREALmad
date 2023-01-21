@@ -10,13 +10,12 @@ import Picker from '../shared/Picker'
 
 export default function AddProject({ navigation} ) {
 
-  var formattedDate = '';
   //COLOR HANDLER
   const [color, setColor] = useState('');
 
 
   //TITLE HANDLER
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState('brr');
   function nameInputHandler(newTitle) {
     setTitle(newTitle)
     console.log(newTitle)
@@ -27,20 +26,22 @@ export default function AddProject({ navigation} ) {
   let fToday = today.getDate() + '/' + (today.getMonth() + 1) + "/" + today.getFullYear()
 
   const [date, setDate] = useState(new Date());
+  const [formattedDate, setFormattedDate] = useState('')
   const [mode, setMode] = useState('date')
   const [show, setShow] = useState(false)
   const [text, setText] = useState(fToday)
 
-  const onChange = (event, selectedDate) => {
+  const onChange = (event, selectedDate) => { 
     const currentDate = selectedDate || date
     setShow(Platform.OS === "ios");
     setDate(currentDate)
 
     let tempDate = new Date(currentDate)
     let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear() 
+    let MDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() 
     setText(fDate)
-    formattedDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() 
-
+    setFormattedDate(MDate)
+    console.log(formattedDate)
   }
 
   const showMode = (currentMode) => {
@@ -48,10 +49,6 @@ export default function AddProject({ navigation} ) {
     setMode(currentMode)
   }
 
-
-  function dateInputHandler(newDate){
-    setDate(newDate)
-  }
 
   function makeList(newTitle, newDate, newColor){
 
@@ -71,13 +68,13 @@ export default function AddProject({ navigation} ) {
         </TouchableOpacity>
 
         <Text style={styles.inputHeader}>Color Picker</Text>
-            <Picker setColor={(color)=>{console.log(color)}}/>
+            <Picker/>
 
         {show ? <DateTimePicker testID='dateTimePicker' value={date} mode={mode} display='default' onChange={onChange} /> : null}
 
       </View>
       <View style={styles.acceptIcon}>
-      <TouchableOpacity onPress={() => navigation.navigate('Calendar')}>
+      <TouchableOpacity onPress={() => {navigation.navigate('Calendar')}}>
       <AntDesign name="checkcircle" size={50} color="#9842F5" />
       </TouchableOpacity>
       </View>
