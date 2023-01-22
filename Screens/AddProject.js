@@ -3,12 +3,80 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, Button }
 import {
   AntDesign,
 } from '@expo/vector-icons';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import Picker from '../shared/Picker'
+import fireBaseApp from '../firebase';
 
+export default function AddProject({ navigation }) {
 
-export default function AddProject({ navigation, route }) {
+  const db = fireBaseApp.firestore()
+
+  //PROJECT DETAILS
+
+  const [newProject, setNewProject]=useState({
+    title: '',
+    date: '',
+    formattedDate: '',
+    color: ''
+  })
+
+  const [projectList, setProjectList] = useState([])
+
+  const addNewProject = async () => {
+    if(newProject.title!=''&&newProject.date!=''&&newProject.formattedDate!=''&&newProject.color!=''){
+      const list = projectList;
+      try {
+
+        const docRef = await db.collection
+        ('newProjectDates').add(newProject)
+        alert('New Date Added!\n' + docRef.id)
+
+        const newProjectJSON = {
+          ...newProject,
+          id: docRef.id
+        }
+
+        list.push(newProjectJSON)
+        setProjectList(list)
+
+        setNewProject({
+          title: '',
+          date: '',
+          formattedDate: '',
+          color: ''
+        })
+
+      } catch (error) {
+        alert('error adding project' + error)
+      }
+    }
+  }
+
+  const getAllData = async()  =>{
+    const snapshot = await db.collection
+    ("newProjectDates").get()
+
+    const allProjects = snapshot.docs.map((doc)=>{
+      const docData = doc.data();
+      return{
+        id:doc.id,
+        title: docData.title,
+        date: docData.date,
+        formattedDate: docData.formattedDate,
+        color: docData.color
+      }
+    })
+    setProjectList(allProjects)
+
+  }
+
+  useEffect(()=>{
+    getAllData()
+  }, [])
+
+  
+
 
   //COLOR HANDLER
   const [color, setColor] = useState('');

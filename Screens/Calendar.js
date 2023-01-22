@@ -5,7 +5,7 @@ import { Calendar } from 'react-native-calendars';
 import React from 'react'
 
 
-export default function CalendarApp({ navigation, route}) {
+export default function CalendarApp({ navigation}) {
 
 
     const projects = [
@@ -57,7 +57,6 @@ export default function CalendarApp({ navigation, route}) {
 
     return (
         <View style={styles.container}>
-            {/* <Text>{route.params.title}</Text> */}
             <View style={styles.calendarStyle}>
                 <Calendar
                     onDayPress={day => { console.log('selected day', day); console.log(route) }}
