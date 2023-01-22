@@ -8,7 +8,7 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import Picker from '../shared/Picker'
 
 
-export default function AddProject({ navigation }) {
+export default function AddProject({ navigation, route }) {
 
   //COLOR HANDLER
   const [color, setColor] = useState('');
@@ -17,12 +17,15 @@ export default function AddProject({ navigation }) {
       setColor(color);
       console.log(color)
     };
-
+ 
   //TITLE HANDLER
   const [title, setTitle] = useState('brr');
   function nameInputHandler(newTitle) {
     setTitle(newTitle)
-    console.log(newTitle)
+    console.log(title)
+    console.log(color)
+    console.log(text)
+    console.log(formattedDate)
   }
 
   //DATE HANDLER
@@ -30,7 +33,7 @@ export default function AddProject({ navigation }) {
   let fToday = today.getDate() + '/' + (today.getMonth() + 1) + "/" + today.getFullYear()
 
   const [date, setDate] = useState(new Date());
-  const [formattedDate, setFormattedDate] = useState('')
+  const [formattedDate, setFormattedDate] = useState(fToday)
   const [mode, setMode] = useState('date')
   const [show, setShow] = useState(false)
   const [text, setText] = useState(fToday)
@@ -71,21 +74,23 @@ export default function AddProject({ navigation }) {
           <Text style={styles.dateInput}>{text}</Text>
         </TouchableOpacity>
 
-        <Text style={styles.inputHeader}>Color Picker</Text>
+        <Text style={styles.inputHeader}>Color Picker</Text> 
         <Picker onColorChange={onColorChange}/>
 
         {show ? <DateTimePicker testID='dateTimePicker' value={date} mode={mode} display='default' onChange={onChange} /> : null}
-
+ 
       </View>
       <View style={styles.acceptIcon}>
-        <TouchableOpacity onPress={() => { navigation.navigate('Calendar') }}>
-          <AntDesign name="checkcircle" size={50} color="#9842F5" />
-        </TouchableOpacity>
+        <TouchableOpacity onPress={() => { navigation.navigate('Calendar',{screen: 'Calendar', params:{
+          title: title
+        }})} }>
+          <AntDesign name="checkcircle" size={50} color="#9842F5" /> 
+        </TouchableOpacity>  
       </View>
 
     </View>
-  );
-}
+  ); 
+} 
 
 const styles = StyleSheet.create({
   container: {

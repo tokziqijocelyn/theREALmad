@@ -3,11 +3,9 @@ import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native
 import { AntDesign } from '@expo/vector-icons';
 import { Calendar } from 'react-native-calendars';
 import React from 'react'
-import { useRoute } from '@react-navigation/native';
 
 
-export default function CalendarApp({ navigation}) {
-
+export default function CalendarApp({ navigation, route}) {
 
 
     const projects = [
@@ -59,10 +57,10 @@ export default function CalendarApp({ navigation}) {
 
     return (
         <View style={styles.container}>
-
+            {/* <Text>{route.params.title}</Text> */}
             <View style={styles.calendarStyle}>
                 <Calendar
-                    onDayPress={day => { console.log('selected day', day); }}
+                    onDayPress={day => { console.log('selected day', day); console.log(route) }}
                     enableSwipeMonths={true}
                     markedDates={{
                         '2023-01-16': { selected: true, selectedColor: '#ffc1bd' },
@@ -70,7 +68,7 @@ export default function CalendarApp({ navigation}) {
                         '2023-01-24': { selected: true, selectedColor: '#ffedb3' },
                     }}
 
-                />
+                /> 
             </View>
 
             <View style={styles.ListOfDates}>
