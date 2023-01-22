@@ -8,11 +8,15 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import Picker from '../shared/Picker'
 
 
-export default function AddProject({ navigation} ) {
+export default function AddProject({ navigation }) {
 
   //COLOR HANDLER
   const [color, setColor] = useState('');
 
+  const onColorChange = color => {
+      setColor(color);
+      console.log(color)
+    };
 
   //TITLE HANDLER
   const [title, setTitle] = useState('brr');
@@ -31,14 +35,14 @@ export default function AddProject({ navigation} ) {
   const [show, setShow] = useState(false)
   const [text, setText] = useState(fToday)
 
-  const onChange = (event, selectedDate) => { 
+  const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date
     setShow(Platform.OS === "ios");
     setDate(currentDate)
 
     let tempDate = new Date(currentDate)
-    let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear() 
-    let MDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() 
+    let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear()
+    let MDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate()
     setText(fDate)
     setFormattedDate(MDate)
     console.log(formattedDate)
@@ -50,17 +54,17 @@ export default function AddProject({ navigation} ) {
   }
 
 
-  function makeList(newTitle, newDate, newColor){
+  function makeList(newTitle, newDate, newColor) {
 
   }
- 
+
 
   return (
     <View style={styles.container}>
       <View style={styles.listOfInputs}>
         <Text style={styles.inputHeader}>Title</Text>
-        <TextInput style={styles.nameInput} placeholder="Name of project/exam" placeholderTextColor="#D984E8" 
-        onChangeText={nameInputHandler}/>
+        <TextInput style={styles.nameInput} placeholder="Name of project/exam" placeholderTextColor="#D984E8"
+          onChangeText={nameInputHandler} />
 
         <Text style={styles.inputHeader}>Date</Text>
         <TouchableOpacity onPress={() => { showMode('date') }}>
@@ -68,15 +72,15 @@ export default function AddProject({ navigation} ) {
         </TouchableOpacity>
 
         <Text style={styles.inputHeader}>Color Picker</Text>
-            <Picker/>
+        <Picker onColorChange={onColorChange}/>
 
         {show ? <DateTimePicker testID='dateTimePicker' value={date} mode={mode} display='default' onChange={onChange} /> : null}
 
       </View>
       <View style={styles.acceptIcon}>
-      <TouchableOpacity onPress={() => {navigation.navigate('Calendar')}}>
-      <AntDesign name="checkcircle" size={50} color="#9842F5" />
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => { navigation.navigate('Calendar') }}>
+          <AntDesign name="checkcircle" size={50} color="#9842F5" />
+        </TouchableOpacity>
       </View>
 
     </View>
@@ -90,7 +94,7 @@ const styles = StyleSheet.create({
     fontFamily: "Lexend-Medium"
 
   },
-  nameInput: { 
+  nameInput: {
     backgroundColor: '#E9DCFF',
     padding: 9,
     borderRadius: 15,
@@ -110,7 +114,7 @@ const styles = StyleSheet.create({
   listOfInputs: {
     padding: 20,
     margin: 10,
-    flex:5
+    flex: 5
   },
   inputHeader: {
     fontSize: 20,
@@ -118,10 +122,10 @@ const styles = StyleSheet.create({
     fontFamily: "Lexend-Medium",
     margin: 3
   },
-  acceptIcon:{
+  acceptIcon: {
     flex: 1,
     justifyContent: 'center',
-    alignItems:'center',
+    alignItems: 'center',
     margin: 10,
   }
 

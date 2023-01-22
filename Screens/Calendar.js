@@ -3,9 +3,12 @@ import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native
 import { AntDesign } from '@expo/vector-icons';
 import { Calendar } from 'react-native-calendars';
 import React from 'react'
+import { useRoute } from '@react-navigation/native';
 
 
-export default function CalendarApp({ navigation, route }) {
+export default function CalendarApp({ navigation}) {
+
+
 
     const projects = [
         {
