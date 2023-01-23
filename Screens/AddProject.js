@@ -1,14 +1,16 @@
 
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, Button } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, Alert} from 'react-native';
 import {
   AntDesign,
 } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import Picker from '../shared/Picker'
+import Confirmation from '../shared/Confirmation'
 import fireBaseApp from '../firebase';
 
 export default function AddProject({ navigation }) {
+
 
   const db = fireBaseApp.firestore()
 
@@ -52,6 +54,7 @@ export default function AddProject({ navigation }) {
       }
     }
   }
+
 
   const getAllData = async()  =>{
     const snapshot = await db.collection
@@ -149,12 +152,11 @@ export default function AddProject({ navigation }) {
  
       </View>
       <View style={styles.acceptIcon}>
-        <TouchableOpacity onPress={() => { navigation.navigate('Calendar',{screen: 'Calendar', params:{
-          title: title
-        }})} }>
+        <TouchableOpacity onPress={()=>{navigation.navigate('Calendar')}}>
           <AntDesign name="checkcircle" size={50} color="#9842F5" /> 
         </TouchableOpacity>  
       </View>
+      <Confirmation/>
 
     </View>
   ); 
