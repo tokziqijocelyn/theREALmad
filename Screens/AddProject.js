@@ -52,7 +52,7 @@ export default function AddProject({ navigation }) {
     setShow(true)
     setMode(currentMode)
   }
-
+ 
 
   function makeList(newTitle, newDate, newColor) {
 

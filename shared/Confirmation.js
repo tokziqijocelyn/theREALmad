@@ -19,6 +19,8 @@ const App = (props) => {
     //PROJECT DETAILS
 
     const newProject = {
+
+
         title: title,
         date: date, 
         formattedDate: formattedDate,
@@ -57,7 +59,6 @@ const App = (props) => {
                     {
                         text: 'Cancel',
                         onPress: () => { console.log("cancel pressed") }
-
                     },
                     {
                         text: 'OK', onPress: () => {
