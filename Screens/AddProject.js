@@ -1,84 +1,13 @@
 
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, Alert} from 'react-native';
-import {
-  AntDesign,
-} from '@expo/vector-icons';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform} from 'react-native';
+
 import React, { useEffect, useState } from 'react'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import Picker from '../shared/Picker'
 import Confirmation from '../shared/Confirmation'
-import fireBaseApp from '../firebase';
-
-export default function AddProject({ navigation }) {
 
 
-  const db = fireBaseApp.firestore()
-
-  //PROJECT DETAILS
-
-  const [newProject, setNewProject]=useState({
-    title: '',
-    date: '',
-    formattedDate: '',
-    color: ''
-  })
-
-  const [projectList, setProjectList] = useState([])
-
-  const addNewProject = async () => {
-    if(newProject.title!=''&&newProject.date!=''&&newProject.formattedDate!=''&&newProject.color!=''){
-      const list = projectList;
-      try {
-
-        const docRef = await db.collection
-        ('newProjectDates').add(newProject)
-        alert('New Date Added!\n' + docRef.id)
-
-        const newProjectJSON = {
-          ...newProject,
-          id: docRef.id
-        }
-
-        list.push(newProjectJSON)
-        setProjectList(list)
-
-        setNewProject({
-          title: '',
-          date: '',
-          formattedDate: '',
-          color: ''
-        })
-
-      } catch (error) {
-        alert('error adding project' + error)
-      }
-    }
-  }
-
-
-  const getAllData = async()  =>{
-    const snapshot = await db.collection
-    ("newProjectDates").get()
-
-    const allProjects = snapshot.docs.map((doc)=>{
-      const docData = doc.data();
-      return{
-        id:doc.id,
-        title: docData.title,
-        date: docData.date,
-        formattedDate: docData.formattedDate,
-        color: docData.color
-      }
-    })
-    setProjectList(allProjects)
-
-  }
-
-  useEffect(()=>{
-    getAllData()
-  }, [])
-
-  
+export default function AddProject({ navigation }) {    
 
 
   //COLOR HANDLER
@@ -90,21 +19,18 @@ export default function AddProject({ navigation }) {
     };
  
   //TITLE HANDLER
-  const [title, setTitle] = useState('brr');
+  const [title, setTitle] = useState('');
   function nameInputHandler(newTitle) {
     setTitle(newTitle)
-    console.log(title)
-    console.log(color)
-    console.log(text)
-    console.log(formattedDate)
   }
 
   //DATE HANDLER
   let today = new Date()
   let fToday = today.getDate() + '/' + (today.getMonth() + 1) + "/" + today.getFullYear()
+  let formattedToday = today.getFullYear() + '-' + (today.getMonth() + 1) + "-" + today.getDate()
 
   const [date, setDate] = useState(new Date());
-  const [formattedDate, setFormattedDate] = useState(fToday)
+  const [formattedDate, setFormattedDate] = useState(formattedToday)
   const [mode, setMode] = useState('date')
   const [show, setShow] = useState(false)
   const [text, setText] = useState(fToday)
@@ -151,13 +77,9 @@ export default function AddProject({ navigation }) {
         {show ? <DateTimePicker testID='dateTimePicker' value={date} mode={mode} display='default' onChange={onChange} /> : null}
  
       </View>
-      <View style={styles.acceptIcon}>
-        <TouchableOpacity onPress={()=>{navigation.navigate('Calendar')}}>
-          <AntDesign name="checkcircle" size={50} color="#9842F5" /> 
-        </TouchableOpacity>  
-      </View>
-      <Confirmation/>
 
+
+      <Confirmation color={color} date={text} formattedDate={formattedDate} title={title} />
     </View>
   ); 
 } 
@@ -197,11 +119,6 @@ const styles = StyleSheet.create({
     fontFamily: "Lexend-Medium",
     margin: 3
   },
-  acceptIcon: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 10,
-  }
+
 
 });

@@ -7,7 +7,30 @@ import React from 'react'
 
 export default function CalendarApp({ navigation}) {
 
+    const getAllData = async()  =>{
+        const snapshot = await db.collection
+        ("newProjectDates").get()
+    
+        const allProjects = snapshot.docs.map((doc)=>{
+          const docData = doc.data();
+          return{
+            id:doc.id,
+            title: docData.title,
+            date: docData.date,
+            formattedDate: docData.formattedDate,
+            color: docData.color
+          }
+        })
+        setProjectList(allProjects)
+    
+      }
+    
+    
+      useEffect(()=>{
+        getAllData()
+      }, [])
 
+      
     const projects = [
         {
             id: 1,
