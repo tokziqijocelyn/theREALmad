@@ -25,9 +25,13 @@ export default function AddProject({ navigation }) {
   }
 
   //DATE HANDLER
+  
+
+
   let today = new Date()
   let fToday = today.getDate() + '/' + (today.getMonth() + 1) + "/" + today.getFullYear()
-  let formattedToday = today.getFullYear() + '-' + (today.getMonth() + 1) + "-" + today.getDate()
+
+  let formattedToday = today.getFullYear() + '-' + (("0" + (today.getMonth() + 1)).slice(-2)) + "-" + (("0" + today.getDate()).slice(-2))
 
   const [date, setDate] = useState(new Date());
   const [formattedDate, setFormattedDate] = useState(formattedToday)
@@ -37,25 +41,22 @@ export default function AddProject({ navigation }) {
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date
-    setShow(Platform.OS === "ios");
+    setShow(Platform.OS === "ios"); 
     setDate(currentDate)
 
     let tempDate = new Date(currentDate)
     let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear()
-    let MDate = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate()
+    
+
+    let MDate = tempDate.getFullYear() + '-' + (("0" + (tempDate.getMonth() + 1)).slice(-2))  + '-' + (("0" + tempDate.getDate()).slice(-2))
     setText(fDate)
     setFormattedDate(MDate)
     console.log(formattedDate)
   }
 
   const showMode = (currentMode) => {
-    setShow(true)
+    setShow(true) 
     setMode(currentMode)
-  }
- 
-
-  function makeList(newTitle, newDate, newColor) {
-
   }
 
 

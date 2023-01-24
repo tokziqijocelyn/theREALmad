@@ -52,11 +52,15 @@ export default function CalendarApp({ navigation }) {
                 [date]: { selected: true, selectedColor: color }
             })
 
-            console.log(color)
+            console.log(snapshot)
 
         })
     
     } 
+
+    // const getDatesMarked = () =>{
+    //     projectList
+    // }
  
 
     useEffect(() => {
