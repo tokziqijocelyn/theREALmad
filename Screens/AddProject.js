@@ -25,8 +25,16 @@ export default function AddProject({ navigation }) {
   }
 
   //DATE HANDLER
-  
 
+  const [diff, setDiff] = useState(0)
+  
+  const daysBetween = (date1, date2) => {
+    const oneDay = 24 * 60 * 60 * 1000; 
+    const date1Ms = date1.getTime();
+    const date2Ms = date2.getTime();
+    const differenceMs = date2Ms - date1Ms;
+    return Math.round(differenceMs / oneDay);
+}
 
   let today = new Date()
   let fToday = today.getDate() + '/' + (today.getMonth() + 1) + "/" + today.getFullYear()
@@ -51,7 +59,10 @@ export default function AddProject({ navigation }) {
     let MDate = tempDate.getFullYear() + '-' + (("0" + (tempDate.getMonth() + 1)).slice(-2))  + '-' + (("0" + tempDate.getDate()).slice(-2))
     setText(fDate)
     setFormattedDate(MDate)
+    const diffInDays = daysBetween(today, tempDate)
     console.log(formattedDate)
+    console.log(diffInDays)
+    setDiff(diffInDays)
   }
 
   const showMode = (currentMode) => {
@@ -80,7 +91,7 @@ export default function AddProject({ navigation }) {
       </View>
 
 
-      <Confirmation color={color} date={text} formattedDate={formattedDate} title={title} />
+      <Confirmation color={color} date={text} formattedDate={formattedDate} title={title} diff={diff} />
     </View>
   ); 
 } 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Pressable, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -13,6 +13,9 @@ const App = (props) => {
     const color = props.color
     const date = props.date
     const formattedDate = props.formattedDate
+    const diff = props.diff
+
+    const [update, setUpdate] = useState(false);
 
     const db = fireBaseApp.firestore()
 
@@ -20,19 +23,20 @@ const App = (props) => {
 
     const newProject = {
 
-
         title: title,
-        date: date, 
+        date: date,
         formattedDate: formattedDate,
-        color: color 
+        color: color,
+        diff: diff
     };
-    
+
     const [projectList, setProjectList] = useState([])
 
     const addNewProject = async () => {
-        if (newProject.title != '') {
-            const list = projectList;
-            try {
+        try {
+            if (newProject.title != '') {
+                const list = projectList;
+
                 const docRef = await db.collection
                     ('newProjectDates').add(newProject)
                 alert('New Date Added!\n' + docRef.id)
@@ -44,10 +48,13 @@ const App = (props) => {
 
                 list.push(newProjectJSON)
                 setProjectList(list)
-
-            } catch (error) {
-                alert('Error adding project: \n' + error)
+                setUpdate(!update)
+            } else if (newProject.title == '') {
+                throw new Error("Please enter all fields!")
             }
+
+        } catch (error) {
+            alert('Error adding project: \n' + error)
         }
     }
 
@@ -62,7 +69,7 @@ const App = (props) => {
                     },
                     {
                         text: 'OK', onPress: () => {
-                                              
+
                             console.log(newProject);
                             navigation.navigate('Calendar');
                             addNewProject()

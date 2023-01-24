@@ -6,8 +6,7 @@ import React, { useState, useEffect } from 'react'
 import fireBaseApp from '../firebase';
 
 
-export default function CalendarApp({ navigation }) {
-
+export default function CalendarApp({ navigation}) {
 
     const [markedDates, setMarkedDates] = useState({})
 
@@ -32,7 +31,8 @@ export default function CalendarApp({ navigation }) {
                 title: docData.title,
                 date: docData.date,
                 formattedDate: docData.formattedDate,
-                color: docData.color
+                color: docData.color,
+                diff: docData.diff
             }
         })
         setProjectList(allProjects)
@@ -40,46 +40,42 @@ export default function CalendarApp({ navigation }) {
     }
 
     const calendarDates = async () => {
-        const snapshot = await db.collection
-            ("newProjectDates").get()
-
-        const allProjects = snapshot.docs.map((doc) => {
+        const snapshot = await db.collection("newProjectDates").get();
+        let markedDates = {};
+        snapshot.docs.map((doc) => {
             var docData = doc.data();
             var date = docData.formattedDate
             var color = docData.color
-
-            setMarkedDates({
-                [date]: { selected: true, selectedColor: color }
-            })
-
-            console.log(snapshot)
-
-        })
-    
+            markedDates[date] = { selected: true, selectedColor: color }
+        });
+        setMarkedDates(markedDates);
     } 
 
-    // const getDatesMarked = () =>{
-    //     projectList
-    // }
- 
 
     useEffect(() => {
         console.log("----------------------")
         getAllData()
         calendarDates()
-        console.log(markedDates)
 
     }, [])
 
+    // useEffect(() => { 
+    //     // listen for changes in the database
+    //     db.collection('newProjectDates').onSnapshot(snapshot => {
+    //         setUpdate(!update);
+    //     });
 
-    return ( 
+    // }, [update]);
+
+
+    return (
         <View style={styles.container} >
             <View style={styles.calendarStyle}>
                 <Calendar
                     onDayPress={day => { console.log('selected day', day); }}
                     enableSwipeMonths={true}
                     markedDates={markedDates}
-                /> 
+                />
             </View>
 
             <View style={styles.ListOfDates}>
@@ -99,7 +95,7 @@ export default function CalendarApp({ navigation }) {
                             let color = item.color
 
                             return (
-                                <TouchableOpacity key = {index}>
+                                <TouchableOpacity key={index}>
                                     <View style={{ flexDirection: 'row', backgroundColor: color, padding: 15, margin: 7, borderRadius: 10, justifyContent: 'space-evenly' }}>
                                         <View style={{ flex: 2 }}>
 
@@ -108,7 +104,7 @@ export default function CalendarApp({ navigation }) {
 
                                         </View>
                                         <View style={{ justifyContent: 'center', flex: 1 }}>
-                                            <Text style={{ fontFamily: "Lexend-Medium", color: '#4B1A80', fontSize: 20, textAlign: 'center' }}>{item.daysLeft}</Text>
+                                            <Text style={{ fontFamily: "Lexend-Medium", color: '#4B1A80', fontSize: 20, textAlign: 'center' }}>{item.diff} Days left</Text>
                                         </View>
                                     </View>
                                 </TouchableOpacity>
