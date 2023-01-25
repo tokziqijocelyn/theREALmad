@@ -1,35 +1,96 @@
 import {FlashList} from '@shopify/flash-list'
-import {View, Text, TextInput, StyleSheet, Dimensions} from 'react-native'
+import {
+    View,
+    Text,
+    TextInput,
+    StyleSheet,
+    Dimensions,
+    TouchableOpacity
+} from 'react-native'
 import DropDown from '../shared/DropDown'
-import React from 'react'
+import React, {useState} from 'react'
 
-export default function List(){
+export default function List() {
 
+    const [items, setItems] = useState([]);
+    const [selectedGrade, setSelectedGrade] = useState({});
 
-    const modules = [
-        {id:1, module: "Module 1:"},
-        {id:2, module: "Module 2:"},
-        {id:3, module: "Module 3:"},
-      ]
+    const handleAddItem = () => {
+        const newItem = {
+            key: items.length.toString(),
+            module: "Module " + (
+                (items.length + 1).toString()
+            )
+        }
 
-    const renderItem = ({ item }) => {
-        return ( 
-        <View style={styles.List}>
-            <Text style={{fontFamily:"Lexend-Medium", fontSize: 20, margin:5}}>{item.module}</Text>
-            <View style ={{flexDirection: 'row', alignItems:'center', margin:5}}>
-              <Text style={{fontFamily:"Lexend-Medium", fontSize: 15}}>Grade</Text>
-            <DropDown/>
-            
-            <Text style={{fontFamily:"Lexend-Medium", fontSize: 15}}>Credits</Text>
-            <TextInput style={styles.CUInput} />
-            </View>
-        </View>
-        )
+        setItems([
+            ...items,
+            newItem
+        ])
     }
 
-    return(
-        <View style={{height: 300, width: Dimensions.get("screen").width }}>
-        <FlashList data={modules} renderItem={renderItem}/>
+    return (
+        <View style={
+            {
+                height: 300,
+                width: Dimensions.get("screen").width
+            }
+        }>
+            <FlashList data={items}
+                renderItem={
+                  ({item}) => {
+                      return (
+                          <View style={
+                              styles.List
+                          }>
+                              <Text style={
+                                  {
+                                      fontFamily: "Lexend-Medium",
+                                      fontSize: 20,
+                                      margin: 5
+                                  }
+                              }>
+                                  {
+                                  item.module
+                              }</Text>
+                              <View style={
+                                  {
+                                      flexDirection: 'row',
+                                      alignItems: 'center',
+                                      margin: 5
+                                  }
+                              }>
+                                  <Text style={
+                                      {
+                                          fontFamily: "Lexend-Medium",
+                                          fontSize: 15
+                                      }
+                                  }>Grade</Text>
+
+                                  
+                                  <DropDown/>
+              
+                                  <Text style={
+                                      {
+                                          fontFamily: "Lexend-Medium",
+                                          fontSize: 15
+                                      }
+                                  }>Credits</Text>
+                                  <TextInput style={
+                                      styles.CUInput
+                                  }/>
+                              </View>
+                          </View>
+                      )
+                  }
+              }              
+                estimatedItemSize={15}/>
+
+            <TouchableOpacity style = {{justifyContent:'center'}} onPress={handleAddItem} >
+                <Text style={
+                    styles.addNewGrade
+                }>+ Add new Module Grade</Text>
+            </TouchableOpacity>
         </View>
     )
 
@@ -37,17 +98,29 @@ export default function List(){
 }
 
 const styles = StyleSheet.create({
-    List:{
+    List: {
         borderBottomWidth: 0.4,
         borderBottomColor: '#9842F5',
-        margin:15,
-      },
-      CUInput:{
-        backgroundColor:'#E9DCFF',
-        margin:20,
+        margin: 15
+    },
+    CUInput: {
+        backgroundColor: '#E9DCFF',
+        margin: 20,
         padding: 10,
-        borderRadius:20,
-        fontFamily:"Lexend-Medium",
-        fontSize:18
-      },
+        borderRadius: 20,
+        fontFamily: "Lexend-Medium",
+        fontSize: 18
+    },
+    addNewGrade: {
+        fontFamily: "Lexend-Medium",
+        margin: 20,
+        fontSize: 20,
+        backgroundColor: "#9842F5",
+        color: "#fff",
+        borderRadius: 20,
+        padding: 10,
+        textAlign: 'center',
+        alignContent:'center',
+        alignItems:'center'
+    }
 })

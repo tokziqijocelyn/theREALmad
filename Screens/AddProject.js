@@ -1,7 +1,7 @@
 
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform} from 'react-native';
 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import Picker from '../shared/Picker'
 import Confirmation from '../shared/Confirmation'

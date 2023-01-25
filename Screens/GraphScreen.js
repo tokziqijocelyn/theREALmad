@@ -1,9 +1,27 @@
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput } from 'react-native'
+import React, {useState, useEffect} from 'react'
 import Chart from '../shared/Chart';
 import { AntDesign } from '@expo/vector-icons'; 
 
+
 const GraphScreen = ({ navigation }) => {
+
+
+  //Keep track of time of when user uses app
+  const [appOpenDuration, setAppOpenDuration] = useState(0);
+
+  useEffect(() => {
+    let intervalId;
+    const startTime = Date.now();
+
+    intervalId = setInterval(() => {
+      const duration = Math.round((Date.now() - startTime) / 1000 / 60 / 60);
+      setAppOpenDuration(duration);
+    }, 300000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
 
 
   return (
@@ -13,18 +31,18 @@ const GraphScreen = ({ navigation }) => {
         <View style={styles.timeSpent}>
           <Text style={styles.timeSpentText}>
             <Text >Time spent studying: </Text>
-            <Text style={{ textDecorationLine: "underline" }}>9 hours</Text>
-          </Text>
+            <Text style={{ textDecorationLine: "underline" }}>{appOpenDuration} hours</Text>
+          </Text> 
         </View>
 
         <View style={styles.GPAContainer}>
           <View style={[styles.GPAs, { backgroundColor: '#9842F5' }]}>
             <Text style={{ fontFamily: "Lexend-Medium", fontSize: 18, textAlign: 'center', color: '#fff' }}>Current GPA:</Text>
-            <Text style={{ fontFamily: "Lexend-Medium", fontSize: 25, color: '#fff' }}>3.56</Text>
+            <Text style={{ fontFamily: "Lexend-Medium", fontSize: 25, color: '#fff' }}>3.66</Text>
           </View>
           <View style={[styles.GPAs, { backgroundColor: '#fff' }]}>
             <Text style={{ fontFamily: "Lexend-Medium", fontSize: 18, textAlign: 'center' }}>Goal GPA:</Text>
-            <Text style={{ fontFamily: "Lexend-Medium", fontSize: 25 }}>3.86</Text>
+            <TextInput style={{ fontFamily: "Lexend-Medium", fontSize: 25 }}/>
           </View>
         </View>
 

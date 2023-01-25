@@ -10,9 +10,7 @@ import {
 } from '@expo/vector-icons';
 
 const AddGrades = ({navigation}) => {
-
-
-
+ 
   let today = new Date()
   let fToday =  today.getDate() + '/' + (today.getMonth() + 1) + "/" + today.getFullYear()
 
@@ -39,8 +37,6 @@ const AddGrades = ({navigation}) => {
     setMode(currentMode)
   }
 
-
-
   let [fontsLoaded] = useFonts({
     'Lexend-Medium': require('../assets/fonts/Lexend-Medium.ttf'),
   });
@@ -59,20 +55,17 @@ const AddGrades = ({navigation}) => {
       </View>
   <ScrollView>
         <View style ={{margin:10}}>
-          <FlashList/>
           
+          <FlashList/>
+            
         </View>
-        
+         
         <Text style={{fontFamily:"Lexend-Medium", margin: 5, fontSize: 20}}>Current GPA: 3.59</Text>
-        <TouchableOpacity>
-        <Text style={styles.addNewGrade}>+ Add new Module Grade</Text>
-        </TouchableOpacity>
-
         <TouchableOpacity onPress={()=>{
           alert("GPA Updated!")
           navigation.navigate('Progress')
         }}
-        style={{alignItems:'center'}}>
+        style={{alignItems:'center'}}> 
         <AntDesign name="checkcircle" size={50} color="#9842F5" />
         </TouchableOpacity>
         </ScrollView>
@@ -108,7 +101,8 @@ const styles = StyleSheet.create({
     color:"#fff",
     borderRadius:20,
     padding: 10, 
-    textAlign:'center'
+    textAlign:'center',
+    alignContent:'center'
   }
 
 })

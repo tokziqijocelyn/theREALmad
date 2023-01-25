@@ -10,7 +10,7 @@ export default function CalendarApp({ navigation}) {
 
     const [markedDates, setMarkedDates] = useState({})
 
-    var test = {
+    var test = { 
         '2023-01-06': { selected: true, selectedColor: '#ffff12' }
     }
 
