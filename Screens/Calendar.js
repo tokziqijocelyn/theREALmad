@@ -6,15 +6,10 @@ import React, { useState, useEffect } from 'react'
 import fireBaseApp from '../firebase';
 
 
-export default function CalendarApp({ navigation}) {
+export default function CalendarApp({ navigation }) {
+    const db = fireBaseApp.firestore()
 
     const [markedDates, setMarkedDates] = useState({})
-
-    var test = { 
-        '2023-01-06': { selected: true, selectedColor: '#ffff12' }
-    }
-
-    const db = fireBaseApp.firestore()
 
     const [projectList, setProjectList] = useState([])
 
@@ -49,7 +44,7 @@ export default function CalendarApp({ navigation}) {
             markedDates[date] = { selected: true, selectedColor: color }
         });
         setMarkedDates(markedDates);
-    } 
+    }
 
 
     useEffect(() => {
@@ -58,15 +53,6 @@ export default function CalendarApp({ navigation}) {
         calendarDates()
 
     }, [])
-
-    // useEffect(() => { 
-    //     // listen for changes in the database
-    //     db.collection('newProjectDates').onSnapshot(snapshot => {
-    //         setUpdate(!update);
-    //     });
-
-    // }, [update]);
-
 
     return (
         <View style={styles.container} >
