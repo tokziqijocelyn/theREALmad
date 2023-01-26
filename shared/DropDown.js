@@ -4,7 +4,7 @@ import {StyleSheet, View} from 'react-native'
 
 export default function DropDown({onValueChange}) {
 
-    const [selectedGrade, setSelectedGrade] = useState([])
+    const [selectedGrade, setSelectedGrade] = useState(0)
 
 
     return (
@@ -13,7 +13,7 @@ export default function DropDown({onValueChange}) {
             selectedValue={selectedGrade}
             onValueChange={
                 (itemValue) => {
-                    setSelectedGrade([...selectedGrade, itemValue]);
+                    setSelectedGrade(itemValue);
                     onValueChange(selectedGrade);
                     console.log(itemValue)
                 }

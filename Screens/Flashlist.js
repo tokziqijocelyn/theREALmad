@@ -29,12 +29,12 @@ export default function List() {
 
     const onValueChange = (valueSelected) => {
         setSelectedGrade(valueSelected);
-        // console.log(valueSelected)
+        console.log(valueSelected)
     }
 
     const onCUChange = (newValue) => {
         newValue = parseInt(newValue)
-        setCreditUnits([newValue])
+        setCreditUnits(newValue)
         console.log(newValue)
     }
 
@@ -42,6 +42,7 @@ export default function List() {
         setGPA({
             grade, CU
         })
+        console.log(GPA)
     }
 
     const addTotalGPA = async () => {
