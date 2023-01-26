@@ -22,7 +22,6 @@ const App = (props) => {
     //PROJECT DETAILS
 
     const newProject = {
-
         title: title,
         date: date,
         formattedDate: formattedDate,

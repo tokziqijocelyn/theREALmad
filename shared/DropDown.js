@@ -2,20 +2,22 @@ import {Picker} from '@react-native-picker/picker';
 import {useState} from 'react'
 import {StyleSheet, View} from 'react-native'
 
-export default function DropDown() {
+export default function DropDown({onValueChange}) {
 
-    const [selectedGrade, setSelectedGrade] = useState({})
+    const [selectedGrade, setSelectedGrade] = useState([])
+
 
     return (
         <View style ={styles.container}>
-            <Picker selectedValue={selectedGrade}
-                onValueChange={
-                    (itemValue) => {
-                        setSelectedGrade(itemValue);
-                        console.log(itemValue)
-                    }
+            <Picker 
+            selectedValue={selectedGrade}
+            onValueChange={
+                (itemValue) => {
+                    setSelectedGrade([...selectedGrade, itemValue]);
+                    onValueChange(selectedGrade);
+                    console.log(itemValue)
+                }
             }>
-
                 <Picker.Item label="A"
                     value={4}/>
                 <Picker.Item label="B+"
