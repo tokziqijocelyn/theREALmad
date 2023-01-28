@@ -14,8 +14,6 @@ export default function CalendarApp({ navigation }) {
     const [projectList, setProjectList] = useState([])
 
     const getAllData = async () => {
-
-
         const snapshot = await db.collection
             ("newProjectDates").get()
 

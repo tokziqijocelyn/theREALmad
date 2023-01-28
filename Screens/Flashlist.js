@@ -4,14 +4,28 @@ import {
     Text,
     TextInput,
     StyleSheet,
-    Dimensions,
     TouchableOpacity
 } from 'react-native'
 import DropDown from '../shared/DropDown'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import fireBaseApp from '../firebase';
 
 export default function List() {
+
+    const handleAddItem = async () => {
+        const newItem = {
+            key: items.length.toString(),
+            module: "Module " + (
+                (items.length + 1).toString()
+            ),
+            grade: selectedGrade,
+            creditUnits: creditUnits
+        }
+        setItems([
+            ...items,
+            newItem
+        ])
+    }
 
     const db = fireBaseApp.firestore()
 
@@ -22,87 +36,86 @@ export default function List() {
 
     const [listOfGPAs, setListOfGPAs] = useState([])
 
-    const [GPA, setGPA] = useState({
-        grade: 0,
-        CU: 0
-    })
+
+    const handleUpdategrade = (key, newGrade) => {
+        newCU = parseInt(newGrade)
+        const updatedItems = items.map(item => {
+            if (item.key === key) {
+                return { ...item, creditUnits: newCU };
+            }
+            return item;
+        });
+        setItems(updatedItems);
+        console.log("----------CREDIT CHANGE-----------------")
+        console.log(items)
+        console.log(isNaN(newCU))
+
+    };
+
+    const handleUpdateCU = (key, newCU) => {
+        newCU = parseInt(newCU)
+
+        const updatedItems = items.map(item => {
+            if (item.key === key) {
+                return { ...item, creditUnits: newCU };
+            }
+            return item;
+        });
+        setItems(updatedItems);
+        console.log("----------CREDIT CHANGE-----------------")
+        console.log(items)
+        console.log(isNaN(newCU))
+    };
 
     const onValueChange = (valueSelected) => {
         setSelectedGrade(valueSelected);
         console.log(valueSelected)
+        handleUpdategrade(valueSelected)
     }
 
-    const onCUChange = (newValue) => {
-        newValue = parseInt(newValue)
-        setCreditUnits(newValue)
-        console.log(newValue)
-    }
 
-    const finaliseGPA = (grade, CU) => {
-        setGPA({
-            grade, CU
-        })
-        console.log(GPA)
-    }
+    const addItemToDB = async () => {
 
-    const addTotalGPA = async () => {
-        try {
-            if (GPA.grade != 0 && GPA.CU != 0) {
-                const listOfScores = listOfGPAs
+        for (let i = 0; i < items.length; i++) {
+            try {
+                if (items[i].creditUnits > 0) {
+                    const listOfScores = items
 
-                const docRef = await db.collection('Grades').add(GPA)
-                alert("New GPA added \n" + docRef.id)
+                    const docRef = await db.collection('Grades').add(items[i])
+                    alert("New GPA added \n" + docRef.id)
 
-                const GPAJSON = {
-                    ...GPA,
-                    id: docRef.id
+                    const GPAJSON = {
+                        ...items,
+                        id: docRef.id
+                    }
+
+                    listOfScores.push(GPAJSON)
+                    setListOfGPAs(listOfScores)
+                }
+                else if (isNaN(items[i].creditUnits)) {
+                    throw new Error("Credit Unit of module " + (i + 1) + " should be a number!")
                 }
 
-                listOfScores.push(GPAJSON)
-                setListOfGPAs(listOfScores)
+            } catch (error) {
+                alert("Error encountered: \n" + error)
             }
-            else if (isNaN(GPA.CU)) {
-                throw new Error("Credit Unit is not a number!")
-            }
-
-        } catch (error) {
-            alert("Error encountered: \n" + error)
         }
     }
 
 
-    const handleAddItem = () => {
-        const newItem = {
-            key: items.length.toString(),
-            module: "Module " + (
-                (items.length + 1).toString()
-            ),
-        }
-
-        setItems([
-            ...items,
-            newItem
-        ])
-    }
-
-    const addAllAtOnce = () =>{
-        finaliseGPA(selectedGrade, creditUnits)
-        addTotalGPA()
-        handleAddItem()
-        
-    }
+    useEffect(() => {
+        console.log(items.length)
+    }, [])
 
     return (
-        <View style={
-            {
-                height: 350,
-                width: Dimensions.get("screen").width
-            }
-        }>
+        <View style={{height: 450,}}>
+
             <FlashList data={items}
                 renderItem={
                     ({ item }) => {
+                        console.log(items + "in flashlist")
                         return (
+
                             <View style={styles.List}>
                                 <Text style={{ fontFamily: "Lexend-Medium", fontSize: 20, margin: 5 }}>
                                     {item.module}
@@ -115,25 +128,39 @@ export default function List() {
 
                                     <DropDown onValueChange={onValueChange} />
 
-                                    <Text style={
-                                        { fontFamily: "Lexend-Medium", fontSize: 15 }
-                                    }>Credits</Text>
-                                    <TextInput style={styles.CUInput} onChangeText={onCUChange} />
+                                    <Text style={{ fontFamily: "Lexend-Medium", fontSize: 15 }}>
+                                        Credits
+                                    </Text>
+                                    <TextInput
+                                        style={styles.CUInput}
+                                        onChangeText={(text) => handleUpdateCU(item.key, text)}
+                                    />
+
+
                                 </View>
                             </View>
                         )
                     }
                 }
-                estimatedItemSize={15} />
+                estimatedItemSize={15}
+            />
 
             <TouchableOpacity style={
                 { alignItems: 'center' }
             }
-                onPress={addAllAtOnce}>
+                onPress={handleAddItem}>
                 <Text style={
                     styles.addNewGrade
                 }>+ Add new Module Grade</Text>
             </TouchableOpacity>
+
+            <TouchableOpacity style={{ alignItems: 'center' }} onPress={addItemToDB} >
+                <Text style={styles.calculateGPA} >Calculate GPA</Text>
+            </TouchableOpacity>
+
+            <Text>
+
+            </Text>
         </View>
     )
 
@@ -165,5 +192,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         alignContent: 'center',
         alignItems: 'center'
+    },
+    calculateGPA: {
+        fontFamily: "Lexend-Medium",
+        fontSize: 20,
+        color: "#9842F5"
     }
 })
