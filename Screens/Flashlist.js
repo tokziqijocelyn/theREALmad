@@ -14,18 +14,29 @@ export default function List() {
 
     const handleAddItem = async () => {
         const newItem = {
-            key: items.length.toString(),
             module: "Module " + (
                 (items.length + 1).toString()
             ),
             grade: selectedGrade,
             creditUnits: creditUnits
         }
-        setItems([
-            ...items,
-            newItem
-        ])
+
+        try {
+            const docRef = await db.collection('Grades').add(newItem)
+            alert("New GPA added \n" + docRef.id)
+            const GPAJSON = {
+                ...newItem,
+                key: docRef.id
+            }
+            setItems([
+                ...items,
+                GPAJSON
+            ])
+        } catch (error) {
+            alert("Error encountered: \n" + error)
+        }
     }
+
 
     const db = fireBaseApp.firestore()
 
@@ -33,44 +44,50 @@ export default function List() {
 
     const [selectedGrade, setSelectedGrade] = useState(0)
     const [creditUnits, setCreditUnits] = useState(0)
-
     const [listOfGPAs, setListOfGPAs] = useState([])
 
 
-    const handleUpdategrade = (key, newGrade) => {
-        newCU = parseInt(newGrade)
-        const updatedItems = items.map(item => {
-            if (item.key === key) {
-                return { ...item, creditUnits: newCU };
+    const handleUpdateGrade = async (newGrade, key) => {
+
+        try {
+            await db.collection('Grades').doc(key).update({ grade: newGrade });
+            const updatedItems = items.map(item => {
+                if (item.key === key) {
+                    return { ...item, grade: newGrade };
+                }
+                return item;
+            });
+            setItems(updatedItems);
+
+        } catch (error) {
+            alert("Error encountered: \n" + error)
+        }
+    }
+
+    const handleUpdateCU = async (newCU, key) => {
+        try {
+            if (!isNaN(newCU)) {
+                await db.collection('Grades').doc(key).update({ creditUnits: newCU });
+                const updatedItems = items.map(item => {
+                    if (item.key === key) {
+                        return { ...item, creditUnits: newCU };
+                    }
+                    return item;
+                });
+                setItems(updatedItems);
+            } else {
+                throw new Error("Credit Unit should be a number!")
             }
-            return item;
-        });
-        setItems(updatedItems);
-        console.log("----------CREDIT CHANGE-----------------")
-        console.log(items)
-        console.log(isNaN(newCU))
+        } catch (error) {
+            alert("Error encountered: \n" + error)
+        }
+    }
 
-    };
-
-    const handleUpdateCU = (key, newCU) => {
-        newCU = parseInt(newCU)
-
-        const updatedItems = items.map(item => {
-            if (item.key === key) {
-                return { ...item, creditUnits: newCU };
-            }
-            return item;
-        });
-        setItems(updatedItems);
-        console.log("----------CREDIT CHANGE-----------------")
-        console.log(items)
-        console.log(isNaN(newCU))
-    };
 
     const onValueChange = (valueSelected) => {
         setSelectedGrade(valueSelected);
         console.log(valueSelected)
-        handleUpdategrade(valueSelected)
+        handleUpdateGrade(valueSelected)
     }
 
 
@@ -108,7 +125,7 @@ export default function List() {
     }, [])
 
     return (
-        <View style={{height: 450,}}>
+        <View style={{ height: 450, }}>
 
             <FlashList data={items}
                 renderItem={
@@ -126,17 +143,12 @@ export default function List() {
                                         Grade
                                     </Text>
 
-                                    <DropDown onValueChange={onValueChange} />
+                                    <DropDown onValueChange={onValueChange} key={items.key} />
 
                                     <Text style={{ fontFamily: "Lexend-Medium", fontSize: 15 }}>
                                         Credits
                                     </Text>
-                                    <TextInput
-                                        style={styles.CUInput}
-                                        onChangeText={(text) => handleUpdateCU(item.key, text)}
-                                    />
-
-
+                                    <TextInput style={styles.CUInput} onChangeText={(text) => handleUpdateCU(text, item.key)} />
                                 </View>
                             </View>
                         )
@@ -161,6 +173,7 @@ export default function List() {
             <Text>
 
             </Text>
+
         </View>
     )
 

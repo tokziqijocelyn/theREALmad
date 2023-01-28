@@ -2,10 +2,30 @@ import {Picker} from '@react-native-picker/picker';
 import {useState} from 'react'
 import {StyleSheet, View} from 'react-native'
 
-export default function DropDown({onValueChange}) {
+export default function DropDown({onValueChange}, props) {
 
     const [selectedGrade, setSelectedGrade] = useState(0)
 
+    const key = props.key
+
+    const handleUpdateGrade = async (newGrade, key) => {
+
+        try {
+            await db.collection('Grades').doc(key).update({ grade: newGrade });
+            const updatedItems = items.map(item => {
+                if (item.key === key) {
+                    return { ...item, grade: newGrade };
+                }
+                return item;
+            });
+            setItems(updatedItems);
+
+        } catch (error) {
+            alert("Error encountered: \n" + error)
+        }
+          
+    }
+    
 
     return (
         <View style ={styles.container}>
@@ -16,6 +36,7 @@ export default function DropDown({onValueChange}) {
                     setSelectedGrade(itemValue);
                     onValueChange(selectedGrade);
                     console.log(itemValue)
+                    handleUpdateGrade(itemValue)
                 }
             }>
                 <Picker.Item label="A"
