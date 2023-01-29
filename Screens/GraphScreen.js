@@ -52,7 +52,7 @@ const GraphScreen = ({ navigation }) => {
   useEffect(() => {
     getLatestGPA()
     //UPDATE INTERVAL
-  }, [])
+  })
 
 
 

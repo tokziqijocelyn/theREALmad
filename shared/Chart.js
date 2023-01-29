@@ -1,20 +1,36 @@
 import { View, Dimensions } from 'react-native'
-import React from 'react'
+import React,{useState, useEffect} from 'react'
 import { LineChart } from "react-native-chart-kit";
+import fireBaseApp from '../firebase';
 
 const Chart = () => {
 
+    const db = fireBaseApp.firestore()
+
+    const [listOfGPAs, setListOfGPAs] = useState([]) 
+
+    const getAllData = async () => {
+        const snapshot = await db.collection
+            ("GPA").get()
+
+        const allGPA = snapshot.docs.map((doc) => {
+            const docData = doc.data();
+            return parseFloat(docData.GPA)
+        })
+
+        setListOfGPAs(allGPA)
+        console.log(listOfGPAs)
+    }
+
+    useEffect(()=>{
+        getAllData()
+    })
+
     const data = {
-        labels: ["JUN", "AUG", "DEC", "FEB", "JUN"],
+        
                     datasets: [
                         {
-                            data: [
-                                4,
-                                (Math.random() * 1) + 3,
-                                (Math.random() * 1) + 3,
-                                (Math.random() * 1) + 3,
-                                (Math.random() * 1) + 3,
-                            ]
+                            data:listOfGPAs
                         }
                     ],
     }
