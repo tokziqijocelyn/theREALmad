@@ -1,51 +1,48 @@
 import {
     View,
-    Text,
     StyleSheet,
     TouchableOpacity,
-    TextInput,
-    ScrollView
 } from 'react-native'
-import React, {useState} from 'react'
-import DateTimePicker from '@react-native-community/datetimepicker'
-import {useFonts} from 'expo-font';
-import AppLoading from 'expo-app-loading';
+import React, { useEffect, useState } from 'react'
 import FlashList from './Flashlist';
 
-import {AntDesign} from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
-const AddGrades = ({navigation}) => {
+import fireBaseApp from '../firebase';
 
+const AddGrades = ({ navigation }) => {
 
+    const db = fireBaseApp.firestore()
 
-    let [fontsLoaded] = useFonts({'Lexend-Medium': require('../assets/fonts/Lexend-Medium.ttf')});
+    const deleteEverything = async () => {
+        try {
+            await db.collection("Grades")
+                .get()
+                .then(querySnapshot => {
+                    querySnapshot.forEach(doc => {
+                        doc.ref.delete();
+                    });
+                });
 
-    if (!fontsLoaded) {
-        return <AppLoading/>
+        } catch (error) {
+            alert("Error encountered: " + error)
+        }
     }
 
+    useEffect(()=>{
+        deleteEverything()
+    }, [])
+
     return (
-        <View style ={styles.container}>
-                <View style={
-                    {margin: 10, }
-                }>
+        <View style={styles.container}>
+            <View style={
+                { margin: 10, }
+            }>
 
-                    <FlashList style={{justifyContent:'center'}} />
+                <FlashList style={{ justifyContent: 'center' }} />
 
-                </View>
-                <TouchableOpacity onPress={
-                        () => {
-                            alert("GPA Updated!")
-                            navigation.navigate('Progress')
-                        }
-                    }
-                    style={
-                        {alignItems: 'center'}
-                }>
-                    <AntDesign name="checkcircle"
-                        size={50}
-                        color="#9842F5"/>
-                </TouchableOpacity>
+            </View>
+
         </View>
     )
 }

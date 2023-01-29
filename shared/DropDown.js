@@ -1,62 +1,87 @@
-import {Picker} from '@react-native-picker/picker';
-import {useState} from 'react'
-import {StyleSheet, View} from 'react-native'
+import { Picker } from '@react-native-picker/picker';
+import { useState, useEffect } from 'react'
+import { StyleSheet, View } from 'react-native'
+import fireBaseApp from '../firebase';
 
-export default function DropDown({onValueChange}, props) {
+export default function DropDown({ onValueChange, itemKey }) {
 
+    const db = fireBaseApp.firestore()
     const [selectedGrade, setSelectedGrade] = useState(0)
 
-    const key = props.key
+    const [listOfGPAs, setListOfGPAs] = useState([])
+
+    const getAllData = async () => {
+        const snapshot = await db.collection
+            ("Grades").get()
+
+        const allGPA = snapshot.docs.map((doc) => {
+            const docData = doc.data();
+            return {
+                id: doc.id,
+                key: docData.key,
+                module: docData.module,
+                grade: docData.grade,
+                creditUnits: docData.creditUnits
+            }
+        })
+        setListOfGPAs(allGPA)
+        console.log(listOfGPAs)
+    }
 
     const handleUpdateGrade = async (newGrade, key) => {
 
         try {
             await db.collection('Grades').doc(key).update({ grade: newGrade });
-            const updatedItems = items.map(item => {
-                if (item.key === key) {
-                    return { ...item, grade: newGrade };
+
+            const updatedItems = listOfGPAs.map(item => {
+                if (item.id === key) {
+                    return { ...listOfGPAs, grade: newGrade };
                 }
-                return item;
+                return listOfGPAs;
             });
-            setItems(updatedItems);
+            setListOfGPAs(updatedItems);
 
         } catch (error) {
             alert("Error encountered: \n" + error)
         }
-          
     }
-    
+
+    useEffect(()=>{
+        getAllData()
+    }, [])
+
 
     return (
-        <View style ={styles.container}>
-            <Picker 
-            selectedValue={selectedGrade}
-            onValueChange={
-                (itemValue) => {
-                    setSelectedGrade(itemValue);
-                    onValueChange(selectedGrade);
-                    console.log(itemValue)
-                    handleUpdateGrade(itemValue)
-                }
-            }>
+        <View style={styles.container}>
+            <Picker
+                selectedValue={selectedGrade}
+                onValueChange={
+                    (itemValue) => {
+                        setSelectedGrade(itemValue);
+                        onValueChange(itemValue);
+                        console.log(itemValue)
+                        handleUpdateGrade(itemValue, itemKey)
+                        console.log("key: " + itemKey)
+                    }
+                }>
                 <Picker.Item label="A"
-                    value={4}/>
+                    value={4} />
                 <Picker.Item label="B+"
-                    value={3.5}/>
+                    value={3.5} />
                 <Picker.Item label="B"
-                    value={3}/>
+                    value={3} />
                 <Picker.Item label="C+"
-                    value={2.5}/>
+                    value={2.5} />
                 <Picker.Item label="C"
-                    value={2}/>
+                    value={2} />
                 <Picker.Item label="D+"
-                    value={1.5}/>
+                    value={1.5} />
                 <Picker.Item label="D"
-                    value={1}/>
+                    value={1} />
                 <Picker.Item label="D-"
-                    value={0.5}/>
+                    value={0.5} />
                 <Picker.Item label="F"
-                    value={0}/>
+                    value={0} />
             </Picker>
         </View>
     )

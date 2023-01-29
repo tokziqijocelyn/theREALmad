@@ -36,8 +36,8 @@ const App = (props) => {
             if (newProject.title != '') {
                 const list = projectList;
 
-                const docRef = await db.collection
-                    ('newProjectDates').add(newProject)
+                const docRef = await db.collection('newProjectDates').add(newProject)
+
                 alert('New Date Added!\n' + docRef.id)
 
                 const newProjectJSON = {
@@ -47,7 +47,6 @@ const App = (props) => {
 
                 list.push(newProjectJSON)
                 setProjectList(list)
-                setUpdate(!update)
             } else if (newProject.title == '') {
                 throw new Error("Please enter all fields!")
             }

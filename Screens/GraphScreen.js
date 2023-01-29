@@ -1,16 +1,43 @@
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput } from 'react-native'
-import React, {useState, useEffect} from 'react'
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput } from 'react-native' 
+import React, { useState, useEffect } from 'react'
 import Chart from '../shared/Chart';
-import { AntDesign } from '@expo/vector-icons'; 
-
+import { AntDesign } from '@expo/vector-icons';
+import fireBaseApp from '../firebase';
 
 const GraphScreen = ({ navigation }) => {
-
+  const db = fireBaseApp.firestore()
 
   //Keep track of time of when user uses app
-  const [appOpenDuration, setAppOpenDuration] = useState(0);
+  const [appOpenDuration, setAppOpenDuration] = useState(0); 
+  const [currentGPA, setCurrentGPA] = useState(0)
+  const [GPAlist, setGPAList] = useState([])
+
+  const getLatestGPA = async () => {
+    const snapshot = await db.collection("GPA")
+      .orderBy("date", "desc")
+      .limit(1)
+      .get()
+
+    const latestGPA = snapshot.docs.map((doc) => {
+      const docData = doc.data();
+      return {
+        id: doc.id,
+        GPA: docData.GPA
+      }
+    })
+    
+    setGPAList(JSON.stringify(latestGPA))
+    console.log(latestGPA)
+    const GPAListArray = JSON.parse(GPAlist);
+    const GPA = GPAListArray[0].GPA;
+    setCurrentGPA(GPA);
+    console.log(GPA);
+  }
+
+
 
   useEffect(() => {
+
     let intervalId;
     const startTime = Date.now();
 
@@ -22,6 +49,11 @@ const GraphScreen = ({ navigation }) => {
     return () => clearInterval(intervalId);
   }, []);
 
+  useEffect(() => {
+    getLatestGPA()
+    //UPDATE INTERVAL
+  }, [])
+
 
 
   return (
@@ -32,17 +64,17 @@ const GraphScreen = ({ navigation }) => {
           <Text style={styles.timeSpentText}>
             <Text >Time spent studying: </Text>
             <Text style={{ textDecorationLine: "underline" }}>{appOpenDuration} hours</Text>
-          </Text> 
+          </Text>
         </View>
 
         <View style={styles.GPAContainer}>
           <View style={[styles.GPAs, { backgroundColor: '#9842F5' }]}>
             <Text style={{ fontFamily: "Lexend-Medium", fontSize: 18, textAlign: 'center', color: '#fff' }}>Current GPA:</Text>
-            <Text style={{ fontFamily: "Lexend-Medium", fontSize: 25, color: '#fff' }}>3.66</Text>
+            <Text style={{ fontFamily: "Lexend-Medium", fontSize: 25, color: '#fff' }}>{currentGPA}</Text>
           </View>
           <View style={[styles.GPAs, { backgroundColor: '#fff' }]}>
             <Text style={{ fontFamily: "Lexend-Medium", fontSize: 18, textAlign: 'center' }}>Goal GPA:</Text>
-            <TextInput style={{ fontFamily: "Lexend-Medium", fontSize: 25 }}/>
+            <TextInput style={{ fontFamily: "Lexend-Medium", fontSize: 25 }} />
           </View>
         </View>
 
@@ -51,18 +83,18 @@ const GraphScreen = ({ navigation }) => {
           <Chart />
         </View>
 
-        <View style = {styles.analysis}>
+        <View style={styles.analysis}>
           <Text>
-          <AntDesign name="star" size={10} color="#ffd014" />
-          <Text style={{fontSize: 15, fontFamily: "Lexend-Medium", color: '#fff'}}> Analysis: </Text>
-          <AntDesign name="star" size={10} color="#ffd014" />
+            <AntDesign name="star" size={10} color="#ffd014" />
+            <Text style={{ fontSize: 15, fontFamily: "Lexend-Medium", color: '#fff' }}> Analysis: </Text>
+            <AntDesign name="star" size={10} color="#ffd014" />
           </Text>
-          <Text style = {{fontSize: 15, fontFamily: "Lexend-Medium", color: '#fff'}}> Improved from FEB! Keep it up!</Text>
+          <Text style={{ fontSize: 15, fontFamily: "Lexend-Medium", color: '#fff' }}> Improved from FEB! Keep it up!</Text>
         </View>
 
         <View>
-          <TouchableOpacity style ={{alignItems:'center'}} onPress={()=> navigation.navigate('AddGrades')}>
-            <Text style = {styles.addGrade}>+ New Grades</Text>
+          <TouchableOpacity style={{ alignItems: 'center' }} onPress={() => navigation.navigate('AddGrades')}>
+            <Text style={styles.addGrade}>+ New Grades</Text>
           </TouchableOpacity>
         </View>
 
@@ -108,14 +140,14 @@ const styles = StyleSheet.create({
     elevation: 5,
     shadowColor: 'rgba(155, 57, 222,1)',
   },
-  analysis:{
+  analysis: {
     backgroundColor: '#2A0052',
     padding: 15,
     borderRadius: 20,
     margin: 10,
     alignItems: 'center'
   },
-  addGrade:{
+  addGrade: {
     alignItems: 'center',
     backgroundColor: "#9842F5",
     borderRadius: 20,
@@ -123,7 +155,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: 10,
     color: '#fff',
-    width:200,
+    width: 200,
     justifyContent: 'center'
   }
 })

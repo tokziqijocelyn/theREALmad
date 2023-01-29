@@ -7,6 +7,7 @@ import {
     TouchableOpacity
 } from 'react-native'
 import DropDown from '../shared/DropDown'
+import CalculateGPA from '../shared/CalculateGPA'
 import React, { useState, useEffect } from 'react'
 import fireBaseApp from '../firebase';
 
@@ -14,6 +15,7 @@ export default function List() {
 
     const handleAddItem = async () => {
         const newItem = {
+            key: items.length,
             module: "Module " + (
                 (items.length + 1).toString()
             ),
@@ -48,7 +50,6 @@ export default function List() {
 
 
     const handleUpdateGrade = async (newGrade, key) => {
-
         try {
             await db.collection('Grades').doc(key).update({ grade: newGrade });
             const updatedItems = items.map(item => {
@@ -83,49 +84,8 @@ export default function List() {
         }
     }
 
-
-    const onValueChange = (valueSelected) => {
-        setSelectedGrade(valueSelected);
-        console.log(valueSelected)
-        handleUpdateGrade(valueSelected)
-    }
-
-
-    const addItemToDB = async () => {
-
-        for (let i = 0; i < items.length; i++) {
-            try {
-                if (items[i].creditUnits > 0) {
-                    const listOfScores = items
-
-                    const docRef = await db.collection('Grades').add(items[i])
-                    alert("New GPA added \n" + docRef.id)
-
-                    const GPAJSON = {
-                        ...items,
-                        id: docRef.id
-                    }
-
-                    listOfScores.push(GPAJSON)
-                    setListOfGPAs(listOfScores)
-                }
-                else if (isNaN(items[i].creditUnits)) {
-                    throw new Error("Credit Unit of module " + (i + 1) + " should be a number!")
-                }
-
-            } catch (error) {
-                alert("Error encountered: \n" + error)
-            }
-        }
-    }
-
-
-    useEffect(() => {
-        console.log(items.length)
-    }, [])
-
     return (
-        <View style={{ height: 450, }}>
+        <View style={{ height: 600, }}>
 
             <FlashList data={items}
                 renderItem={
@@ -143,13 +103,22 @@ export default function List() {
                                         Grade
                                     </Text>
 
-                                    <DropDown onValueChange={onValueChange} key={items.key} />
+                                    <DropDown
+                                        onValueChange={(newGrade) => {handleUpdateGrade(newGrade, item.key)}}
+                                        itemKey={item.key}
+                                    />
 
                                     <Text style={{ fontFamily: "Lexend-Medium", fontSize: 15 }}>
                                         Credits
                                     </Text>
-                                    <TextInput style={styles.CUInput} onChangeText={(text) => handleUpdateCU(text, item.key)} />
+                                    <TextInput 
+                                    keyboardType='numeric'
+                                    style={styles.CUInput} 
+                                    onChangeText={(text) => handleUpdateCU(text, item.key)
+                                    } /> 
+                                    
                                 </View>
+                               
                             </View>
                         )
                     }
@@ -165,14 +134,8 @@ export default function List() {
                     styles.addNewGrade
                 }>+ Add new Module Grade</Text>
             </TouchableOpacity>
-
-            <TouchableOpacity style={{ alignItems: 'center' }} onPress={addItemToDB} >
-                <Text style={styles.calculateGPA} >Calculate GPA</Text>
-            </TouchableOpacity>
-
-            <Text>
-
-            </Text>
+            
+            <CalculateGPA/>
 
         </View>
     )
@@ -184,7 +147,8 @@ const styles = StyleSheet.create({
     List: {
         borderBottomWidth: 0.4,
         borderBottomColor: '#9842F5',
-        margin: 15
+        margin: 15,
+
     },
     CUInput: {
         backgroundColor: '#E9DCFF',
@@ -204,11 +168,7 @@ const styles = StyleSheet.create({
         padding: 10,
         textAlign: 'center',
         alignContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        
     },
-    calculateGPA: {
-        fontFamily: "Lexend-Medium",
-        fontSize: 20,
-        color: "#9842F5"
-    }
 })
