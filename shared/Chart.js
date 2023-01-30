@@ -7,9 +7,9 @@ const Chart = () => {
 
     const db = fireBaseApp.firestore()
 
-    const [listOfGPAs, setListOfGPAs] = useState([]) 
+    const [listOfGPAs, setListOfGPAs] = useState([1,2,3,4]) 
 
-    const getAllData = async () => {
+    const getAllGPA= async () => {
         const snapshot = await db.collection
             ("GPA").get()
 
@@ -23,7 +23,7 @@ const Chart = () => {
     }
 
     useEffect(()=>{
-        getAllData()
+        getAllGPA()
     })
 
     const data = {
