@@ -23,7 +23,7 @@ const Stack = createStackNavigator();
   }
 
   return (
-        <Stack.Navigator>
+        <Stack.Navigator >
           <Stack.Screen name="Progress"  
           options={{                    
             headerStyle: {

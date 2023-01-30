@@ -2,12 +2,23 @@
 
 import { createStackNavigator } from '@react-navigation/stack';
 import {StyleSheet} from 'react-native'
-
+import {useFonts} from 'expo-font';
+import AppLoading from 'expo-app-loading';
 import AddProject from './Screens/AddProject'
 import Calendar from './Screens/Calendar'
 
+
+
 export default function CalendarStackNav() {
 const Stack = createStackNavigator();
+
+let [fontsLoaded] = useFonts({
+  'Lexend-Medium': require('./assets/fonts/Lexend-Medium.ttf'),
+});
+
+if (!fontsLoaded){
+  return <AppLoading/>
+}
 
 
   return (

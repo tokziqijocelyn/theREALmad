@@ -44,13 +44,13 @@ export default function CalendarApp({ navigation }) {
         setMarkedDates(markedDates);
     }
 
-
+// CRASHES PLEASE HELP
     useEffect(() => {
         console.log("----------------------")
         getAllData()
         calendarDates()
 
-    }, [])
+    },[])
 
     return (
         <View style={styles.container} >

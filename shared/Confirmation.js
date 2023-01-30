@@ -15,8 +15,6 @@ const App = (props) => {
     const formattedDate = props.formattedDate
     const diff = props.diff
 
-    const [update, setUpdate] = useState(false);
-
     const db = fireBaseApp.firestore()
 
     //PROJECT DETAILS

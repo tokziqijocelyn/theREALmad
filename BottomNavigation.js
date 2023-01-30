@@ -58,6 +58,7 @@ const BottomNavigation = () => {
                 showLabel: false,
                 keyboardHidesTabBar: true
             } }
+            initialRouteName={"Home"}
             >
 
            

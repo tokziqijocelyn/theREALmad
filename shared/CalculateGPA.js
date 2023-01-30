@@ -60,10 +60,9 @@ export default function CalculateGPA() {
         }
     }
 
-    //MIGHT CRASH
     useEffect(() => {
         getAllData()
-    }, [calculate])
+    })
 
     return (
         <View style={styles.container}>

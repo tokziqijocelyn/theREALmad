@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput } from 'react-native' 
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import Chart from '../shared/Chart';
 import { AntDesign } from '@expo/vector-icons';
@@ -8,9 +8,23 @@ const GraphScreen = ({ navigation }) => {
   const db = fireBaseApp.firestore()
 
   //Keep track of time of when user uses app
-  const [appOpenDuration, setAppOpenDuration] = useState(0); 
+  const [appOpenDuration, setAppOpenDuration] = useState(0);
   const [currentGPA, setCurrentGPA] = useState(0)
-  const [GPAlist, setGPAList] = useState([])
+  const [listOfGPAs, setListOfGPAs] = useState([0])
+ 
+  const getAllGPA = async () => {
+    const snapshot = await db.collection
+      ("GPA").orderBy("date", "asc").get()
+
+    const allGPA = snapshot.docs.map((doc) => {
+      const docData = doc.data();
+      return parseFloat(docData.GPA)
+    })
+
+    setListOfGPAs(allGPA)
+    console.log(listOfGPAs)
+  }
+
 
   const getLatestGPA = async () => {
     const snapshot = await db.collection("GPA")
@@ -20,24 +34,16 @@ const GraphScreen = ({ navigation }) => {
 
     const latestGPA = snapshot.docs.map((doc) => {
       const docData = doc.data();
-      return {
-        id: doc.id,
-        GPA: docData.GPA
-      }
+      return (docData.GPA)
     })
-    
-    setGPAList(JSON.stringify(latestGPA))
-    console.log(latestGPA)
-    const GPAListArray = JSON.parse(GPAlist);
-    const GPA = GPAListArray[0].GPA;
-    setCurrentGPA(GPA);
-    console.log(GPA);
+
+    setCurrentGPA(latestGPA);
   }
 
 
-
-  useEffect(() => {
-
+ 
+  useEffect(() => { 
+ 
     let intervalId;
     const startTime = Date.now();
 
@@ -51,8 +57,8 @@ const GraphScreen = ({ navigation }) => {
 
   useEffect(() => {
     getLatestGPA()
-    //UPDATE INTERVAL
-  })
+    getAllGPA()
+  },[])
 
 
 
@@ -89,7 +95,17 @@ const GraphScreen = ({ navigation }) => {
             <Text style={{ fontSize: 15, fontFamily: "Lexend-Medium", color: '#fff' }}> Analysis: </Text>
             <AntDesign name="star" size={10} color="#ffd014" />
           </Text>
-          <Text style={{ fontSize: 15, fontFamily: "Lexend-Medium", color: '#fff' }}> Improved from FEB! Keep it up!</Text>
+
+          {parseFloat(listOfGPAs[listOfGPAs.length - 1]) == parseFloat(listOfGPAs[listOfGPAs.length - 2]) ?
+            <Text style={{ fontSize: 15, fontFamily: "Lexend-Medium", color: '#fff' }}> Consitency! Keep it up!</Text> :
+            null
+          }
+
+          {parseFloat(listOfGPAs[listOfGPAs.length - 1]) > parseFloat(listOfGPAs[listOfGPAs.length - 2]) ?
+            <Text style={{ fontSize: 15, fontFamily: "Lexend-Medium", color: '#fff' }}> An improvement! Keep it up!</Text> :
+            <Text style={{ fontSize: 15, fontFamily: "Lexend-Medium", color: '#fff' }}> You got this! Don't give up!</Text>
+          }
+
         </View>
 
         <View>

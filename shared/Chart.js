@@ -7,11 +7,11 @@ const Chart = () => {
 
     const db = fireBaseApp.firestore()
 
-    const [listOfGPAs, setListOfGPAs] = useState([1,2,3,4]) 
+    const [listOfGPAs, setListOfGPAs] = useState([0]) 
 
     const getAllGPA= async () => {
         const snapshot = await db.collection
-            ("GPA").get()
+            ("GPA").orderBy("date", "asc").get()
 
         const allGPA = snapshot.docs.map((doc) => {
             const docData = doc.data();
@@ -19,7 +19,6 @@ const Chart = () => {
         })
 
         setListOfGPAs(allGPA)
-        console.log(listOfGPAs)
     }
 
     useEffect(()=>{
