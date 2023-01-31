@@ -4,8 +4,6 @@ import { View, Platform, Text, StyleSheet } from "react-native";
 
 class TimerHeader extends Component {
 
-  
-
   handleText = () => {
 
     if(this.props.session1 == this.props.session2 + 1) {
