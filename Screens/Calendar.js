@@ -1,9 +1,10 @@
 
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TouchableHighlight, ScrollView } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Calendar } from 'react-native-calendars';
 import React, { useState, useEffect } from 'react'
 import fireBaseApp from '../firebase';
+import DeleteModal from '../shared/DeleteModal';
 
 
 export default function CalendarApp({ navigation }) {
@@ -13,28 +14,44 @@ export default function CalendarApp({ navigation }) {
 
     const [projectList, setProjectList] = useState([])
 
-    const getAllData = async () => {
-        const snapshot = await db.collection
-            ("newProjectDates").get()
+    const [modalVisible, setModalVisible] = useState(false);
 
-        const allProjects = snapshot.docs.map((doc) => {
+    const [itemId, setItemId] = useState('')
+
+
+    const getAllData = async () => {
+        const snapshot = await db.collection("newProjectDates").onSnapshot(snapshot => {
+          const allProjects = snapshot.docs.map((doc) => {
             const docData = doc.data();
             return {
-                id: doc.id,
-                title: docData.title,
-                date: docData.date,
-                formattedDate: docData.formattedDate,
-                color: docData.color,
-                diff: docData.diff
-            }
-        })
-        setProjectList(allProjects)
-        console.log(projectList)
-    }
+              id: doc.id,
+              title: docData.title,
+              date: docData.date, 
+              formattedDate: docData.formattedDate,
+              color: docData.color,
+              diff: docData.diff,
+            };
+          });
+          setProjectList(allProjects);
+          console.log(projectList);
+        });
+      };
+
+    // const onDelete = async(itemId) =>{
+    //     try {
+    //         const itemRef = await db.collection("newProjectDates").doc(itemId);
+    //         itemRef.delete();
+    //         alert("Deleted successfully!")
+
+    //       } catch (error) {
+    //         alert("Error encountered \n"+ error);
+    //       }
+    // }
+        
 
     const calendarDates = async () => {
-        const snapshot = await db.collection("newProjectDates").get();
-        let markedDates = {};
+        const snapshot = await db.collection("newProjectDates").onSnapshot(snapshot=>{
+            let markedDates = {};
         snapshot.docs.map((doc) => {
             var docData = doc.data();
             var date = docData.formattedDate
@@ -42,18 +59,28 @@ export default function CalendarApp({ navigation }) {
             markedDates[date] = { selected: true, selectedColor: color }
         });
         setMarkedDates(markedDates);
+        });
     }
 
-// CRASHES PLEASE HELP
     useEffect(() => {
         console.log("----------------------")
         getAllData()
         calendarDates()
-
     },[])
 
     return (
         <View style={styles.container} >
+            <DeleteModal
+                visible={modalVisible}
+                onDelete={() => {
+                // onDelete(itemId)
+                setModalVisible(false);
+                }}
+                onCancel={() => setModalVisible(false)}
+                collection={"newProjectDates"}
+                itemIdSelected = {itemId}
+            />
+
             <View style={styles.calendarStyle}>
                 <Calendar
                     onDayPress={day => { console.log('selected day', day); }}
@@ -77,9 +104,13 @@ export default function CalendarApp({ navigation }) {
                     <ScrollView>
                         {projectList.map((item, index) => {
                             let color = item.color
-
+                            var id = item.id
                             return (
-                                <TouchableOpacity key={index}>
+                                <TouchableOpacity key={index} 
+                                    onPress={()=>{
+                                        setModalVisible(true)
+                                        setItemId(id)}} 
+                                    item={item}>
                                     <View style={{ flexDirection: 'row', backgroundColor: color, padding: 15, margin: 7, borderRadius: 10, justifyContent: 'space-evenly' }}>
                                         <View style={{ flex: 2 }}>
 

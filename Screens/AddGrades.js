@@ -1,12 +1,9 @@
 import {
     View,
     StyleSheet,
-    TouchableOpacity,
 } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect} from 'react'
 import FlashList from './Flashlist';
-
-import { AntDesign } from '@expo/vector-icons';
 
 import fireBaseApp from '../firebase';
 

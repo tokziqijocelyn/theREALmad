@@ -5,8 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import CalendarStackNav from './CalendarStackNav';
 import SettingsScreen from './Screens/Settings';
 import TodolistStack from './TodolistStack';
-
-import TimerScreen from './Screens/Timer';
+import TimerScreen from './Screens/Timer'
 import ProgressStack from './ProgressStack'
 
 import {
@@ -94,7 +93,6 @@ const BottomNavigation = () => {
                 options={{
                     tabBarIcon: HomeIcon,
                     headerShown: false,
-                    
                 }}
 
             />

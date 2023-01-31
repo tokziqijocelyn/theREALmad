@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import DropDown from '../shared/DropDown'
 import CalculateGPA from '../shared/CalculateGPA'
-import React, { useState, useEffect } from 'react'
+import React, { useState} from 'react'
 import fireBaseApp from '../firebase';
 
 export default function List() {
@@ -90,7 +90,6 @@ export default function List() {
             <FlashList data={items}
                 renderItem={
                     ({ item }) => {
-                        console.log(items + "in flashlist")
                         return (
 
                             <View style={styles.List}>
@@ -118,7 +117,6 @@ export default function List() {
                                     } /> 
                                     
                                 </View>
-                               
                             </View>
                         )
                     }

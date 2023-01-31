@@ -11,14 +11,16 @@ const Chart = () => {
 
     const getAllGPA= async () => {
         const snapshot = await db.collection
-            ("GPA").orderBy("date", "asc").get()
-
-        const allGPA = snapshot.docs.map((doc) => {
+            ("GPA").orderBy("date", "asc").onSnapshot(snapshot => {
+                 const allGPA = snapshot.docs.map((doc) => {
             const docData = doc.data();
             return parseFloat(docData.GPA)
         })
 
         setListOfGPAs(allGPA)
+            })
+
+       
     }
 
     useEffect(()=>{

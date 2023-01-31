@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import Chart from '../shared/Chart';
 import { AntDesign } from '@expo/vector-icons';
 import fireBaseApp from '../firebase';
+import GPAGoals from '../shared/GPAGoals';
 
 const GraphScreen = ({ navigation }) => {
   const db = fireBaseApp.firestore()
@@ -14,15 +15,15 @@ const GraphScreen = ({ navigation }) => {
  
   const getAllGPA = async () => {
     const snapshot = await db.collection
-      ("GPA").orderBy("date", "asc").get()
-
-    const allGPA = snapshot.docs.map((doc) => {
+      ("GPA").orderBy("date", "asc").onSnapshot(snapshot => {
+         const allGPA = snapshot.docs.map((doc) => {
       const docData = doc.data();
       return parseFloat(docData.GPA)
     })
 
     setListOfGPAs(allGPA)
     console.log(listOfGPAs)
+      })
   }
 
 
@@ -69,19 +70,17 @@ const GraphScreen = ({ navigation }) => {
         <View style={styles.timeSpent}>
           <Text style={styles.timeSpentText}>
             <Text >Time spent studying: </Text>
-            <Text style={{ textDecorationLine: "underline" }}>{appOpenDuration} hours</Text>
+            <Text style={{ textDecorationLine: "underline" }}> {appOpenDuration} hours</Text>
           </Text>
         </View>
 
         <View style={styles.GPAContainer}>
-          <View style={[styles.GPAs, { backgroundColor: '#9842F5' }]}>
-            <Text style={{ fontFamily: "Lexend-Medium", fontSize: 18, textAlign: 'center', color: '#fff' }}>Current GPA:</Text>
-            <Text style={{ fontFamily: "Lexend-Medium", fontSize: 25, color: '#fff' }}>{currentGPA}</Text>
-          </View>
-          <View style={[styles.GPAs, { backgroundColor: '#fff' }]}>
+          <GPAGoals color={'#9842F5'} title={'Current GPA:'} GPA={currentGPA} fontColor={'#fff'} />
+          <GPAGoals color={'#fff'} title={'Goal GPA:'} GPA={0} fontColor={'#000000'} />
+          {/* <View style={[styles.GPAs, { backgroundColor: '#fff' }]}>
             <Text style={{ fontFamily: "Lexend-Medium", fontSize: 18, textAlign: 'center' }}>Goal GPA:</Text>
             <TextInput style={{ fontFamily: "Lexend-Medium", fontSize: 25 }} />
-          </View>
+          </View> */}
         </View>
 
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>

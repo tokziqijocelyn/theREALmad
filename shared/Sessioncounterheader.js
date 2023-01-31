@@ -2,24 +2,23 @@ import React, { Component } from "react";
 import { View, Platform, Text, StyleSheet } from "react-native";
 
 
-class TimerHeader extends Component {
+class SessionHeader extends Component {
 
   
 
   handleText = () => {
 
     if(this.props.session1 == this.props.session2 + 1) {
-      return "Take a break for " + this.props.longbreakDuration + " mins"
+      return " "
     }
-
 
     if (this.props.intervalType == "focus") {
       
-        return "Stay focus for " + this.props.focusDuration + " mins" ;
+        return this.props.session1 + " of " + this.props.session2 + " sessions " ;
       
     } else {
       
-        return "Take a break for " + this.props.shortbreakDuration + " mins" ;
+        return this.props.session1 +  " of " + this.props.session2 + " sessions " ;
       
     }
   };
@@ -32,14 +31,14 @@ class TimerHeader extends Component {
 const styles = StyleSheet.create({
   textStyle: {
     
-    fontSize: 20,
+    fontSize: 18,
     color: '#000000',
     fontWeight:'semi-bold',
     fontFamily:'Lexend_500Medium',
     position:'absolute',
-    bottom:28,
+    top:275,
     
     
   }
 });
-export default TimerHeader;
+export default SessionHeader;
