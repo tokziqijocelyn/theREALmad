@@ -5,9 +5,10 @@ import { Calendar } from 'react-native-calendars';
 import React, { useState, useEffect } from 'react'
 import fireBaseApp from '../firebase';
 import DeleteModal from '../shared/DeleteModal';
-
+import { EventRegister } from 'react-native-event-listeners';
 
 export default function CalendarApp({ navigation }) {
+
     const db = fireBaseApp.firestore()
 
     const [markedDates, setMarkedDates] = useState({})
@@ -17,7 +18,7 @@ export default function CalendarApp({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
 
     const [itemId, setItemId] = useState('')
-
+    
 
     const getAllData = async () => {
         try{const snapshot = await db.collection("newProjectDates").onSnapshot(snapshot => {

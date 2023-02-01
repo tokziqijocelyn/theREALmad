@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState , useContext} from 'react';
+import themeContext from '../config/themeContext';
 import { View, Switch, StyleSheet, Text } from 'react-native';
 import {
   Ionicons,
@@ -12,47 +13,56 @@ import ToggleSwitch from '../shared/switch'
 import { EventRegister } from 'react-native-event-listeners';
 
 const Icons = () => {
-  const [isEnabled, setIsEnabled] = useState(false);
-  // const [isEnabled2, setIsEnabled2] = useState(false);
-  // const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-  // const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
 
-  const toggleSwitch = () => {setIsEnabled(previousState => !previousState)};
+  const theme = useContext(themeContext)
 
+  const [darkMode, setDarkMode] = useState(false)
+
+  const toggleDarkMode = (value) => {
+    setDarkMode(prev => !prev)
+    EventRegister.emit("changeTheme", value)
+  }
+
+  const [notification, setNotification] = useState(false)
+  const toggleNotif = () => {
+    setNotification(prev => !prev)
+  }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: theme.background}]}>
       <View style={styles.container1}>
-        <MaterialCommunityIcons name="weather-night" size={24} color={"black"} style={{}} />
-        <Text style={styles.text}>Night Mode</Text>
-      <ToggleSwitch 
-       trackColor={{false: 'pink', true: 'red'}}
-       thumbColor={isEnabled ? 'pink' : 'red'}
-       
-       />
+        <MaterialCommunityIcons name="weather-night" size={24} color={theme.color} style={{}} />
+        <Text style={[styles.text,{color: theme.color}]}>Night Mode</Text>
+
+        <ToggleSwitch
+          isEnabled={darkMode}
+          toggleSwitch={toggleDarkMode}
+        />
+
       </View>
       <View style={styles.container1}>
-        <MaterialCommunityIcons name="bell-badge" size={24} color={"black"} />
-        <Text style={styles.text}>Notification</Text>
+        <MaterialCommunityIcons name="bell-badge" size={24} color={theme.color} />
+        <Text style={[styles.text,{color: theme.color}]}>Notification</Text>
+        
         <ToggleSwitch
-        trackColor={{ false: '#767577', true: '#81b0ff' }}
-        thumbColor={isEnabled2 ? '#f5dd4b' : '#f4f3f4'}/>
+          isEnabled={notification}
+          toggleSwitch={toggleNotif} />
       </View>
       <View style={styles.container2}>
-        <Ionicons name="musical-notes" size={28} color="black" style={{}} />
+        <Ionicons name="musical-notes" size={28} color={theme.color} />
         <Text style={{ fontSize: 18, fontFamily: "Lexend-Medium", paddingLeft: 45 }} >Music</Text>
         <AntDesign
           name="caretleft"
           size={13}
-          color="black"
+          color={theme.color}
           style={{ padding: 15, position: "absolute", paddingLeft: 200, marginTop: 6 }}
 
         />
-        <Text style={{ padding: 15, position: "absolute", paddingLeft: 240, marginTop: 2, fontFamily: "Lexend-Medium" }}>Forest</Text>
+        <Text style={[{ padding: 15, position: "absolute", paddingLeft: 240, marginTop: 2, fontFamily: "Lexend-Medium", color: theme.color }]}>Forest</Text>
         <AntDesign
           name="caretright"
           size={13}
-          color="black"
+          color={theme.color}
           style={{ padding: 15, position: "absolute", paddingLeft: 315, marginTop: 6 }}
 
         />
@@ -69,8 +79,6 @@ const styles = StyleSheet.create({
 
   container2: {
     flexDirection: "row",
-    backgroundColor: "white",
-
     paddingTop: 15,
     paddingLeft: 48,
 
@@ -80,7 +88,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-evenly",
     padding: 15,
-    backgroundColor: "white"
   },
   text: { fontSize: 18, fontFamily: "Lexend-Medium" },
 

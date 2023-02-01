@@ -1,25 +1,16 @@
 import { View, Text, Switch } from 'react-native'
-import React, {useState} from 'react'
+import React from 'react'
 
-const toggle = ({toggleSwitch, ...props}) => {
+const Toggle = ({isEnabled, toggleSwitch}) => (
+  <View>
+    <Switch 
+      trackColor={{ false: '#767577', true: '#81b0ff' }} 
+      thumbColor={isEnabled ? 'pink' : 'red'}
+      ios_backgroundColor = {"#3e3e3e"}
+      onValueChange={toggleSwitch}
+      value={isEnabled}
+    />
+  </View>
+)
 
-const trackColor = props.trackColor
-const thumbColor = props.thumbColor
-const ios_backgroundColor = "#3e3e3e"
-
-const [isEnabled, setIsEnabled] = useState(false);
-
-  return (
-    <View>
-      <Switch
-        trackColor={trackColor} 
-        thumbColor={thumbColor}
-        ios_backgroundColor = {ios_backgroundColor}
-        onValueChange={toggleSwitch}
-        value={isEnabled}
-      />
-    </View>
-  )
-}
-
-export default toggle
+export default Toggle
