@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, TouchableHighlight, TouchableOpacity, StyleSheet, Text} from 'react-native'
+import { View, TouchableHighlight, TouchableOpacity, StyleSheet, Text } from 'react-native'
 import * as moment from 'moment'
 //import PropTypes from 'prop-types';
 
@@ -12,14 +12,14 @@ import { Circle } from 'react-native-svg';
 import TimerHeader from "./TimerHeader";
 import SessionHeader from "./Sessioncounterheader"
 
-import { Foundation } from '@expo/vector-icons'; 
+import { Foundation } from '@expo/vector-icons';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {
-  Ionicons,
-  MaterialCommunityIcons
+    Ionicons,
+    MaterialCommunityIcons
 } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
-import Icons from "./icons"
+import Icons from './Icon'
 
 export default class Timer extends React.Component {
     constructor(props) {
@@ -40,37 +40,37 @@ export default class Timer extends React.Component {
             interval: 0,
             remainingTime: this.FOCUS_PERIOD * 60,
             intervalType: "focus",
-            sessioncounter: 1, 
+            sessioncounter: 1,
         }
 
-        
 
-          this.handleTimerCompleted1 = () => {
+
+        this.handleTimerCompleted1 = () => {
             if (this.state.intervalType == "focus") {
-              this.setState({ intervalType: "rest", remainingTime: this.REST_PERIOD * 60 });
+                this.setState({ intervalType: "rest", remainingTime: this.REST_PERIOD * 60 });
             } else {
-              this.setState({ intervalType: "focus", remainingTime: this.FOCUS_PERIOD });
+                this.setState({ intervalType: "focus", remainingTime: this.FOCUS_PERIOD });
             }
-          };
-          
-          this.handleTimerCompleted = () => {
+        };
 
-            if(this.state.sessioncounter == this.SESSION && this.state.intervalType != "rest"){
-              this.setState({remainingTime: this.LONGBREAK_PERIOD * 60, sessioncounter: this.state.sessioncounter +1})
-            } else if(this.state.sessioncounter == this.SESSION +1){
-              this.setState({intervalType: "focus", sessioncounter: 1, remainingTime: this.FOCUS_PERIOD})
-            }else{
-                if(this.state.intervalType == "rest") {
-                this.setState({ remainingTime: this.REST_PERIOD *60});
-              } else if (this.state.intervalType == "focus") {
-                this.setState({ remainingTime: this.FOCUS_PERIOD * 60, sessioncounter: this.state.sessioncounter +1});
-              }
+        this.handleTimerCompleted = () => {
+
+            if (this.state.sessioncounter == this.SESSION && this.state.intervalType != "rest") {
+                this.setState({ remainingTime: this.LONGBREAK_PERIOD * 60, sessioncounter: this.state.sessioncounter + 1 })
+            } else if (this.state.sessioncounter == this.SESSION + 1) {
+                this.setState({ intervalType: "focus", sessioncounter: 1, remainingTime: this.FOCUS_PERIOD })
+            } else {
+                if (this.state.intervalType == "rest") {
+                    this.setState({ remainingTime: this.REST_PERIOD * 60 });
+                } else if (this.state.intervalType == "focus") {
+                    this.setState({ remainingTime: this.FOCUS_PERIOD * 60, sessioncounter: this.state.sessioncounter + 1 });
+                }
             }
-          };
-          
-          
-            
- 
+        };
+
+
+
+
         this.defaultStyles = {
             view: {
                 flexDirection: 'row',
@@ -169,7 +169,7 @@ export default class Timer extends React.Component {
             return
         }
 
-        if (this.state.counter <= 0 && this.state.intervalType =="focus") {
+        if (this.state.counter <= 0 && this.state.intervalType == "focus") {
             this.setState({
                 counter: 0,
                 progress: 0,
@@ -180,8 +180,8 @@ export default class Timer extends React.Component {
             })
             this.handleTimerCompleted()
             this.releaseResources()
-            
-        } else if (this.state.counter <= 0 && this.state.intervalType =="rest") {
+
+        } else if (this.state.counter <= 0 && this.state.intervalType == "rest") {
             this.setState({
                 counter: 0,
                 progress: 0,
@@ -192,16 +192,16 @@ export default class Timer extends React.Component {
             })
             this.handleTimerCompleted()
             this.releaseResources()
-            
+
         } else {
             const counter = this.state.counter - 1
             const progress = 1 - counter / this.state.originalCounter
             this.setState({
                 counter: counter,
                 progress: progress,
-                
+
             })
-            
+
         }
     }
 
@@ -211,7 +211,7 @@ export default class Timer extends React.Component {
             .format('hh:mm:ss', { trim: false })
     }
 
-     _play() {
+    _play() {
         if (this.state.play) {
             this.setState({
                 initialState: true,
@@ -246,19 +246,19 @@ export default class Timer extends React.Component {
 
     _cancel() {
         this.releaseResources()
-        
+
     }
 
     _play2() {
-       if (this.state.play) {
+        if (this.state.play) {
             this.setState({
                 initialState: true,
                 play: false,
                 pause: true,
                 resume: false,
             })
-            
-        }  else if (this.state.resume) {
+
+        } else if (this.state.resume) {
             this.setState({
                 counter: this.state.counter,
                 originalCounter: this.state.originalCounter,
@@ -267,15 +267,15 @@ export default class Timer extends React.Component {
                 pause: true,
                 resume: false,
             })
-            
+
         }
 
         timer.setInterval(this, 'tick', () => this.tick(), 1000)
     }
 
-    _pause(){
-      
-         if (this.state.pause) {
+    _pause() {
+
+        if (this.state.pause) {
             this.releaseResources()
             this.setState({
                 counter: this.state.counter,
@@ -285,18 +285,18 @@ export default class Timer extends React.Component {
                 pause: false,
                 resume: true,
             })
-            
+
             return
-        } 
+        }
 
         timer.setInterval(this, 'tick', () => this.tick(), 1000)
-    
+
     }
 
     _showActionText() {
         if (this.state.pause) return <FontAwesome5 name="play" size={20} color="#1C0037" />
         else if (this.state.resume) return <FontAwesome5 name="play" size={20} color="#1C0037" />
-        else return   <FontAwesome5 name="play" size={20} color="#1C0037" />
+        else return <FontAwesome5 name="play" size={20} color="#1C0037" />
     }
 
     releaseResources() {
@@ -312,8 +312,8 @@ export default class Timer extends React.Component {
                 stop: true,
                 resume: false,
             })
-            
-            
+
+
         } catch (err) {
             console.log(err)
         }
@@ -337,10 +337,10 @@ export default class Timer extends React.Component {
             endAngle,
             allowFontScaling,
         } = this.props
-        
-        
-        
-        
+
+
+
+
         const size =
             typeof this.props.size === 'undefined' ? 350 : this.props.size
         const showsText =
@@ -392,26 +392,26 @@ export default class Timer extends React.Component {
             typeof this.props.textStartCircle === 'undefined' ? false : true
 
         return (
-          
+
             <View style={style.containerStyle}>
-            <View style = {style.iconcontainer}>
-            
-            <Icons></Icons>
-            <TouchableOpacity onPress={() => {
-                      this.props.navigation.navigate('Adjust Timer')
-                           
+                <View style={style.iconcontainer}>
+
+                    <Icons></Icons>
+                    <TouchableOpacity onPress={() => {
+                        this.props.navigation.navigate('Adjust Timer')
+
                     }} >
-                  <MaterialCommunityIcons
-                    name="tune-vertical"
-                    size={35}
-                    color="#2A0052"
-                    style = {{paddingRight:"3%", paddingTop: "4.2%"}}
-                    
-                  />
-                </TouchableOpacity>
+                        <MaterialCommunityIcons
+                            name="tune-vertical"
+                            size={35}
+                            color="#2A0052"
+                            style={{ paddingRight: "3%", paddingTop: "4.2%" }}
+
+                        />
+                    </TouchableOpacity>
                 </View>
                 <View style={style.timerdisplaycontainer}>
-                
+
                     <Progress.Circle
                         animated={animated}
                         borderColor={"#E9DCFF"}
@@ -424,7 +424,7 @@ export default class Timer extends React.Component {
                                 ? this._displayText(progress)
                                 : formatText
                         }
-                        
+
                         indeterminate={indeterminate}
                         progress={this.state.progress}
                         rotation={rotation}
@@ -435,43 +435,43 @@ export default class Timer extends React.Component {
                         unfilledColor={'rgba(243, 247, 254, 1)'}
                         endAngle={endAngle}
                         allowFontScaling={allowFontScaling}
-                        textStyle= {{ color: '#000000', fontFamily:'serif', fontSize:39}}
-                        
+                        textStyle={{ color: '#000000', fontFamily: 'serif', fontSize: 39 }}
+
                     />
                 </View>
                 <View style={style.buttonContainer}>
-                      <TouchableOpacity onPress={ () => this._pause() } style={{
-                          borderWidth: 1,
-                          borderColor: '#E9DCFF',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: 55,
-                          position: 'absolute',
-                          bottom: 50,
-                          left:10,
-                          height: 55,
-                          backgroundColor: '#E9DCFF',
-                          borderRadius: 100,
-                        }}>
+                    <TouchableOpacity onPress={() => this._pause()} style={{
+                        borderWidth: 1,
+                        borderColor: '#E9DCFF',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: 55,
+                        position: 'absolute',
+                        bottom: 50,
+                        left: 10,
+                        height: 55,
+                        backgroundColor: '#E9DCFF',
+                        borderRadius: 100,
+                    }}>
                         <Foundation name="pause" size={23} color="#1C0037" />
-                      </TouchableOpacity>
-                      <TouchableOpacity onPress={() => this._play2()} style={{
-                            borderWidth: 1,
-                            borderColor: '#E9DCFF',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            width: 75,
-                            position: 'absolute',
-                            bottom: 40,
-                            left:96,
-                            height: 75,
-                            backgroundColor: '#E9DCFF',
-                            borderRadius: 100,
-                          }}>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this._play2()} style={{
+                        borderWidth: 1,
+                        borderColor: '#E9DCFF',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: 75,
+                        position: 'absolute',
+                        bottom: 40,
+                        left: 96,
+                        height: 75,
+                        backgroundColor: '#E9DCFF',
+                        borderRadius: 100,
+                    }}>
                         <FontAwesome5 name="play" size={20} color="#1C0037" />
-                        
-                      </TouchableOpacity>
-                      <TouchableOpacity onPress={() => this._cancel()} style={{
+
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this._cancel()} style={{
                         borderWidth: 1,
                         borderColor: '#E9DCFF',
                         alignItems: 'center',
@@ -483,53 +483,58 @@ export default class Timer extends React.Component {
                         height: 50,
                         backgroundColor: '#E9DCFF',
                         borderRadius: 100,
-                      }}>
-                          <FontAwesome name="refresh" size={23} color="#1C0037" />
-                      </TouchableOpacity>
+                    }}>
+                        <FontAwesome name="refresh" size={23} color="#1C0037" />
+                    </TouchableOpacity>
                 </View>
-                <TimerHeader
-                  intervalType={this.state.intervalType} focusDuration={this.FOCUS_PERIOD} shortbreakDuration={this.REST_PERIOD} session1={this.state.sessioncounter} session2={this.SESSION} longbreakDuration={this.LONGBREAK_PERIOD}
-                />
-                <SessionHeader
-                  intervalType={this.state.intervalType} focusDuration={this.FOCUS_PERIOD} shortbreakDuration={this.REST_PERIOD} session1={this.state.sessioncounter} session2={this.SESSION} longbreakDuration={this.LONGBREAK_PERIOD}
-                />
+
+                <View>
+                    <TimerHeader
+                        intervalType={this.state.intervalType} focusDuration={this.FOCUS_PERIOD} shortbreakDuration={this.REST_PERIOD} session1={this.state.sessioncounter} session2={this.SESSION} longbreakDuration={this.LONGBREAK_PERIOD}
+                    />
+                    <SessionHeader
+                        intervalType={this.state.intervalType} focusDuration={this.FOCUS_PERIOD} shortbreakDuration={this.REST_PERIOD} session1={this.state.sessioncounter} session2={this.SESSION} longbreakDuration={this.LONGBREAK_PERIOD}
+                    />
+                </View>
             </View>
         )
     }
 }
 
 const style = StyleSheet.create({
-  containerStyle: {
-    flex: 1,
-    marginBottom: "25%",
-    alignItems: "center",
-    
-    
-  },
-  buttonContainer:{
-    position:"absolute",
-    margin:250,
-    flexDirection: "row",
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal:"20%",
-    paddingVertical:"22%",
-    
-  },
-  timerdisplaycontainer:{
-    padding: "30%",
-    
-    position: "absolute",
-    marginTop:100,
-    width:300,
-    height:300,
-    justifyContent:'center',
-    alignItems:'center',
-    
-  },
-  iconcontainer:{
-   
-    flexDirection:'row', justifyContent:"space-between"
-  }
+    containerStyle: {
+        flex: 1,
+        marginBottom: "25%",
+        alignItems: "center",
+
+
+    },
+    buttonContainer: {
+        position: "absolute",
+        margin: 250,
+        flexDirection: "row",
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        paddingHorizontal: "20%",
+        paddingVertical: "22%",
+
+    },
+    timerdisplaycontainer: {
+        padding: "30%",
+
+        position: "absolute",
+        marginTop: 100,
+        width: 300,
+        height: 300,
+        justifyContent: 'center',
+        alignItems: 'center',
+
+    },
+    iconcontainer: {
+
+        flexDirection: 'row', 
+        justifyContent: "space-between",
+        paddingBottom:40
+    }
 })

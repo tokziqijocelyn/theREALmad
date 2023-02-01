@@ -62,14 +62,9 @@ class AdjustTimerScreen1 extends React.Component {
                 dropdownStyles={{backgroundColor:"#9842F5", margin:12, borderRadius:40, borderColor:"#E9DCFF", textAlign:"center", }}
                 showsVerticalScrollIndicator={false}
                 inputStyles={{color:"white", paddingLeft:"65%", fontSize:20, fontWeight:"bold", marginTop:2}}
-                searchicon= <Text></Text>
                 dropdownTextStyles={{color:"white", textAlign:"center"}}
                 searchPlaceholder=" "
                 maxHeight = {185}
-                
-                
-                
-               
          
 
             />
@@ -86,7 +81,6 @@ class AdjustTimerScreen1 extends React.Component {
                 dropdownStyles={{backgroundColor:"#9842F5", margin:12, borderRadius:40, borderColor:"#E9DCFF", textAlign:"center", }}
                 showsVerticalScrollIndicator={false}
                 inputStyles={{color:"white", paddingLeft:"65%", fontSize:20, fontWeight:"bold", marginTop:2}}
-                searchicon= <Text></Text>
                 dropdownTextStyles={{color:"white", textAlign:"center"}}
                 searchPlaceholder=" "
                 maxHeight = {185}
@@ -105,7 +99,6 @@ class AdjustTimerScreen1 extends React.Component {
                 dropdownStyles={{backgroundColor:"#9842F5", margin:12, borderRadius:40, borderColor:"#E9DCFF", textAlign:"center", }}
                 showsVerticalScrollIndicator={false}
                 inputStyles={{color:"white", paddingLeft:"65%", fontSize:20, fontWeight:"bold", marginTop:2}}
-                searchicon= <Text></Text>
                 dropdownTextStyles={{color:"white", textAlign:"center"}}
                 searchPlaceholder=" "
                 maxHeight = {185}
@@ -123,7 +116,6 @@ class AdjustTimerScreen1 extends React.Component {
                 dropdownStyles={{backgroundColor:"#9842F5", margin:12, borderRadius:40, borderColor:"#E9DCFF", textAlign:"center" }}
                 showsVerticalScrollIndicator={false}
                 inputStyles={{color:"white", paddingLeft:"55%", fontSize:20, fontWeight:"bold", marginTop:2}}
-                searchicon= <Text></Text>
                 dropdownTextStyles={{color:"white", textAlign:"center"}}
                 searchPlaceholder=" "
                 maxHeight = {100}
@@ -153,7 +145,7 @@ class AdjustTimerScreen1 extends React.Component {
         
                       
                     >
-          <Text style={{fontWeight:"bold", fontSize:25, fontFamily:"lexend_500Medium" } }>Apply</Text>
+          <Text style={{fontWeight:"bold", fontSize:25, fontFamily:"Lexend-Medium" } }>Apply</Text>
         </TouchableOpacity>
       </View>
 

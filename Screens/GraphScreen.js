@@ -12,17 +12,17 @@ const GraphScreen = ({ navigation }) => {
   const [appOpenDuration, setAppOpenDuration] = useState(0);
   const [currentGPA, setCurrentGPA] = useState(0)
   const [listOfGPAs, setListOfGPAs] = useState([0])
- 
+
   const getAllGPA = async () => {
     const snapshot = await db.collection
       ("GPA").orderBy("date", "asc").onSnapshot(snapshot => {
-         const allGPA = snapshot.docs.map((doc) => {
-      const docData = doc.data();
-      return parseFloat(docData.GPA)
-    })
+        const allGPA = snapshot.docs.map((doc) => {
+          const docData = doc.data();
+          return parseFloat(docData.GPA)
+        })
 
-    setListOfGPAs(allGPA)
-    console.log(listOfGPAs)
+        setListOfGPAs(allGPA)
+        console.log(listOfGPAs)
       })
   }
 
@@ -31,20 +31,20 @@ const GraphScreen = ({ navigation }) => {
     const snapshot = await db.collection("GPA")
       .orderBy("date", "desc")
       .limit(1)
-      .get()
+      .onSnapshot(snapshot => {
+        const latestGPA = snapshot.docs.map((doc) => {
+          const docData = doc.data();
+          return (docData.GPA)
+        })
 
-    const latestGPA = snapshot.docs.map((doc) => {
-      const docData = doc.data();
-      return (docData.GPA)
-    })
-
-    setCurrentGPA(latestGPA);
+        setCurrentGPA(latestGPA);
+      })
   }
 
 
- 
-  useEffect(() => { 
- 
+
+  useEffect(() => {
+
     let intervalId;
     const startTime = Date.now();
 
@@ -59,7 +59,7 @@ const GraphScreen = ({ navigation }) => {
   useEffect(() => {
     getLatestGPA()
     getAllGPA()
-  },[])
+  }, [])
 
 
 
@@ -77,10 +77,6 @@ const GraphScreen = ({ navigation }) => {
         <View style={styles.GPAContainer}>
           <GPAGoals color={'#9842F5'} title={'Current GPA:'} GPA={currentGPA} fontColor={'#fff'} />
           <GPAGoals color={'#fff'} title={'Goal GPA:'} GPA={0} fontColor={'#000000'} />
-          {/* <View style={[styles.GPAs, { backgroundColor: '#fff' }]}>
-            <Text style={{ fontFamily: "Lexend-Medium", fontSize: 18, textAlign: 'center' }}>Goal GPA:</Text>
-            <TextInput style={{ fontFamily: "Lexend-Medium", fontSize: 25 }} />
-          </View> */}
         </View>
 
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
