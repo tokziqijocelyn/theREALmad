@@ -8,6 +8,7 @@ import {
   Octicons,
   MaterialCommunityIcons
 } from '@expo/vector-icons'
+import ToggleSwitch from '../shared/switch'
 
 const Icons = () => {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -20,24 +21,17 @@ const Icons = () => {
       <View style={styles.container1}>
         <MaterialCommunityIcons name="weather-night" size={24} color={"black"} style={{}} />
         <Text style={styles.text}>Night Mode</Text>
-        <Switch
-        trackColor={{false: 'pink', true: 'red'}}
-        thumbColor={isEnabled ? 'pink' : 'red'}
-        ios_backgroundColor="#3e3e3e"
-        onValueChange={toggleSwitch}
-        value={isEnabled}
-      />
+      <ToggleSwitch 
+       trackColor={{false: 'pink', true: 'red'}}
+       thumbColor={isEnabled ? 'pink' : 'red'}
+       />
       </View>
       <View style={styles.container1}>
         <MaterialCommunityIcons name="bell-badge" size={24} color={"black"} />
         <Text style={styles.text}>Notification</Text>
-        <Switch
-          trackColor={{ false: '#767577', true: '#81b0ff' }}
-          thumbColor={isEnabled2 ? '#f5dd4b' : '#f4f3f4'}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch2}
-          value={isEnabled2}
-        />
+        <ToggleSwitch
+        trackColor={{ false: '#767577', true: '#81b0ff' }}
+        thumbColor={isEnabled2 ? '#f5dd4b' : '#f4f3f4'}/>
       </View>
       <View style={styles.container2}>
         <Ionicons name="musical-notes" size={28} color="black" style={{}} />

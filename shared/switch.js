@@ -5,13 +5,22 @@ const toggle = (props) => {
 
 const trackColor = props.trackColor
 const thumbColor = props.thumbColor
+const ios_backgroundColor = "#3e3e3e"
 
 const [isEnabled, setIsEnabled] = useState(false);
+
+const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
 
   return (
     <View>
-      <Text>switch</Text>
+      <Switch
+        trackColor={trackColor} 
+        thumbColor={thumbColor}
+        ios_backgroundColor = {ios_backgroundColor}
+        onValueChange={toggleSwitch}
+        value={isEnabled}
+      />
     </View>
   )
 }
