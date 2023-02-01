@@ -9,12 +9,16 @@ import {
   MaterialCommunityIcons
 } from '@expo/vector-icons'
 import ToggleSwitch from '../shared/switch'
+import { EventRegister } from 'react-native-event-listeners';
 
 const Icons = () => {
   const [isEnabled, setIsEnabled] = useState(false);
-  const [isEnabled2, setIsEnabled2] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-  const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
+  // const [isEnabled2, setIsEnabled2] = useState(false);
+  // const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  // const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
+
+  const toggleSwitch = () => {setIsEnabled(previousState => !previousState)};
+
 
   return (
     <View style={styles.container}>
@@ -24,6 +28,7 @@ const Icons = () => {
       <ToggleSwitch 
        trackColor={{false: 'pink', true: 'red'}}
        thumbColor={isEnabled ? 'pink' : 'red'}
+       
        />
       </View>
       <View style={styles.container1}>

@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import momentDurationFormatSetup from 'moment-duration-format'
 import * as Progress from 'react-native-progress'
-// import timer from 'react-native-timer'
+import timer from 'react-native-timer'
 import { Circle } from 'react-native-svg';
 import TimerHeader from "./TimerHeader";
 import SessionHeader from "./Sessioncounterheader"
@@ -488,14 +488,12 @@ export default class Timer extends React.Component {
                     </TouchableOpacity>
                 </View>
 
-                <View>
                     <TimerHeader
                         intervalType={this.state.intervalType} focusDuration={this.FOCUS_PERIOD} shortbreakDuration={this.REST_PERIOD} session1={this.state.sessioncounter} session2={this.SESSION} longbreakDuration={this.LONGBREAK_PERIOD}
                     />
                     <SessionHeader
                         intervalType={this.state.intervalType} focusDuration={this.FOCUS_PERIOD} shortbreakDuration={this.REST_PERIOD} session1={this.state.sessioncounter} session2={this.SESSION} longbreakDuration={this.LONGBREAK_PERIOD}
                     />
-                </View>
             </View>
         )
     }

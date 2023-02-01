@@ -71,21 +71,8 @@ const BottomNavigation = () => {
                 name="Timer"
                 component={TimerScreen}
                 options={{ tabBarIcon: timerIcon ,  
-                    headerStyle: {
-                    backgroundColor: '#E9DCFF',
-                    borderBottomEndRadius: 130,
-                    borderBottomStartRadius: 130,
-                  },
-      
-                  headerTitleStyle: {
-                    fontWeight: 'bold',
-                    fontFamily: "Lexend-Medium",
-                    
-                  },
-      
-                  headerTintColor: '#9842F5',
-                  headerTitleAlign: 'center',
-    }}
+                    headerShown: false
+             }}
             /> 
             <Tab.Screen
                 name="Home"

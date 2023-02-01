@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     fontWeight:'semi-bold',
     fontFamily:'Lexend-Medium',
     position:'absolute',
-    bottom:28,
+    top:525
     
     
   }

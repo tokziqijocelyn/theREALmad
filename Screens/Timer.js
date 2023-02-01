@@ -13,11 +13,24 @@ export default function Lily() {
   return (
     
     <Stack.Navigator>
-      <Stack.Screen name="FirstTimerPage"
-        options={{
-          title: 'Timer',
-          headerShown: false}}
-        component={FirstTimerPage} />
+        <Stack.Screen name="FirstTimerPage"  
+          options={{     
+            title:'Timer',               
+            headerStyle: {
+            backgroundColor: '#E9DCFF',
+            borderBottomEndRadius: 130,
+            borderBottomStartRadius: 130,
+        },
+
+        headerTitleStyle: {
+            fontWeight: 'bold',
+            fontFamily: "Lexend-Medium"
+        },
+
+        headerTintColor: '#9842F5',  
+        headerTitleAlign: 'center',}}
+            component={FirstTimerPage} />
+
 
 
       <Stack.Screen name="Timer"
