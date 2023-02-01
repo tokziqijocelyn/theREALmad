@@ -1,7 +1,7 @@
-import {View, Text, StyleSheet} from 'react-native'
+import {View, Text, StyleSheet,Pressable} from 'react-native'
 import React from 'react'
 
-const GPAGoals = (props) => {
+const GPAGoals = ({onPress, ...props}) => {
 
     const title = props.title
     const color = props.color
@@ -9,9 +9,10 @@ const GPAGoals = (props) => {
     const fontColor = props.fontColor
 
     return (
-        <View style={
+        <Pressable style={
             [styles.GPAs, {
-                    backgroundColor: color}]}>
+                    backgroundColor: color}]}
+                    onPress={onPress}>
             <Text style={
                 {
                     fontFamily: "Lexend-Medium",
@@ -28,7 +29,7 @@ const GPAGoals = (props) => {
                 }
             }>
                 {GPA}</Text>
-        </View>
+        </Pressable>
     )
 }
 

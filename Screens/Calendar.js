@@ -20,7 +20,7 @@ export default function CalendarApp({ navigation }) {
 
 
     const getAllData = async () => {
-        const snapshot = await db.collection("newProjectDates").onSnapshot(snapshot => {
+        try{const snapshot = await db.collection("newProjectDates").onSnapshot(snapshot => {
           const allProjects = snapshot.docs.map((doc) => {
             const docData = doc.data();
             return {
@@ -34,23 +34,15 @@ export default function CalendarApp({ navigation }) {
           });
           setProjectList(allProjects);
           console.log(projectList);
-        });
+        });}
+        catch(error){
+            alert(error)
+        }
       };
-
-    // const onDelete = async(itemId) =>{
-    //     try {
-    //         const itemRef = await db.collection("newProjectDates").doc(itemId);
-    //         itemRef.delete();
-    //         alert("Deleted successfully!")
-
-    //       } catch (error) {
-    //         alert("Error encountered \n"+ error);
-    //       }
-    // }
         
 
     const calendarDates = async () => {
-        const snapshot = await db.collection("newProjectDates").onSnapshot(snapshot=>{
+        try{const snapshot = await db.collection("newProjectDates").onSnapshot(snapshot=>{
             let markedDates = {};
         snapshot.docs.map((doc) => {
             var docData = doc.data();
@@ -59,8 +51,24 @@ export default function CalendarApp({ navigation }) {
             markedDates[date] = { selected: true, selectedColor: color }
         });
         setMarkedDates(markedDates);
-        });
+        });}
+        catch(error){
+            alert(error)
+        }
     }
+
+    const onDelete = async(itemId) =>{
+        try {
+            const itemRef = await db.collection("newProjectDates").doc(itemId);
+            itemRef.delete();
+            alert("Deleted successfully!")
+
+          } catch (error) {
+            alert("Error encountered \n"+ error);
+          }
+          
+    }
+        
 
     useEffect(() => {
         console.log("----------------------")
@@ -73,12 +81,10 @@ export default function CalendarApp({ navigation }) {
             <DeleteModal
                 visible={modalVisible}
                 onDelete={() => {
-                // onDelete(itemId)
+                onDelete(itemId)
                 setModalVisible(false);
                 }}
                 onCancel={() => setModalVisible(false)}
-                collection={"newProjectDates"}
-                itemIdSelected = {itemId}
             />
 
             <View style={styles.calendarStyle}>
@@ -96,7 +102,6 @@ export default function CalendarApp({ navigation }) {
                         style={styles.touchableOpacityStyle}
                         onPress={() => navigation.navigate('AddProject')}>
                         <AntDesign name="pluscircle" size={35} color="#2A0052" />
-
                     </TouchableOpacity>
                 </View>
                 <View style={styles.projectList}>

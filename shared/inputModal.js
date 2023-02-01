@@ -4,12 +4,19 @@ import {
     View,
     Text,
     TouchableHighlight,
-    StyleSheet
+    StyleSheet,
+    TextInput
 } from 'react-native';
 import {useFonts} from 'expo-font';
 import AppLoading from 'expo-app-loading';
+import fireBaseApp from '../firebase';
 
-const DeleteModal = ({visible, onCancel, onDelete}) => {
+const InputModal = ({visible, onCancel, ...props}) => {
+    const db = fireBaseApp.firestore()
+
+    const currentGoal = props.currentGoal
+
+    const [goalInput, setGoalInput] = useState('')
 
     let [fontsLoaded] = useFonts({
         'Lexend-Medium': require('../assets/fonts/Lexend-Medium.ttf'),
@@ -18,19 +25,36 @@ const DeleteModal = ({visible, onCancel, onDelete}) => {
       if (!fontsLoaded){
         return <AppLoading/>
       }
-      
+    
+      const onUpdate = async(goalInput) =>{
+        try {
+            await db.collection('GoalGPA').doc("5XNeN1nGvADtiTwB00q9").update({ GoalGPA : goalInput });
+            alert("Update success!")
+        } catch (error) {
+            alert("Error encountered: \n" + error)
+        }
+      }
+
     return (
         <Modal animationType="slide"
             transparent={true}
             visible={visible}
             onRequestClose={onCancel}>
+                
             <View style={
                 styles.modalContainer
             }>
                 <Text style={
                     styles.modalText
-                }>Are you sure you want to delete this item?</Text>
+                }>Update Goal GPA to:</Text>
 
+                <TextInput placeholder={currentGoal}
+                style={styles.textInputStyle} 
+                keyboardType='numeric'
+                placeholderTextColor={'purple'}
+                placeholderFontFamily={'Lexend-Medium'}
+                onChangeText={(text)=>{setGoalInput(text)}}
+                />
                 <View style={
                     styles.buttonContainer
                 }>
@@ -38,7 +62,7 @@ const DeleteModal = ({visible, onCancel, onDelete}) => {
                         <Text style={
                                 styles.yesButton
                             }
-                            onPress={()=>{onDelete()
+                            onPress={()=>{onUpdate(goalInput)
                               onCancel()}}>Yes</Text>
                     </TouchableHighlight>
                     <Text style={
@@ -51,7 +75,7 @@ const DeleteModal = ({visible, onCancel, onDelete}) => {
     );
 };
 
-export default DeleteModal
+export default InputModal
 
 const styles = StyleSheet.create({
     modalContainer: {
@@ -83,5 +107,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         padding: 12,
       },
+      textInputStyle:{
+        backgroundColor:'white', 
+        width:70, 
+        height: 50, 
+        fontFamily:'Lexend-Medium', 
+        textAlign:'center', 
+        borderRadius:20
+      }
 
 });

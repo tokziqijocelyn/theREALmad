@@ -4,6 +4,7 @@ import Chart from '../shared/Chart';
 import { AntDesign } from '@expo/vector-icons';
 import fireBaseApp from '../firebase';
 import GPAGoals from '../shared/GPAGoals';
+import InputModal from '../shared/inputModal'
 
 const GraphScreen = ({ navigation }) => {
   const db = fireBaseApp.firestore()
@@ -12,6 +13,8 @@ const GraphScreen = ({ navigation }) => {
   const [appOpenDuration, setAppOpenDuration] = useState(0);
   const [currentGPA, setCurrentGPA] = useState(0)
   const [listOfGPAs, setListOfGPAs] = useState([0])
+  const [goalGPA, setGoalGPA] = useState(0)
+  const [modalVisible, setModalVisible] = useState(false)
 
   const getAllGPA = async () => {
     const snapshot = await db.collection
@@ -26,6 +29,26 @@ const GraphScreen = ({ navigation }) => {
       })
   }
 
+  const showModal = () =>{
+    setModalVisible(true)
+  }
+
+  const getGoalGPA = async () => {
+
+    try{
+      const snapshot = await db.collection("GoalGPA").onSnapshot(snapshot=>{
+        const firstDocument = snapshot.docs[0];
+      const GPA = firstDocument.data().GoalGPA;
+      setGoalGPA(GPA);
+      console.log("GOAL GPA-------------------" + goalGPA);
+      });
+      
+    }
+    catch(error)
+    {
+      alert("Error encountered\n" + error)
+    }
+  };
 
   const getLatestGPA = async () => {
     const snapshot = await db.collection("GPA")
@@ -40,8 +63,6 @@ const GraphScreen = ({ navigation }) => {
         setCurrentGPA(latestGPA);
       })
   }
-
-
 
   useEffect(() => {
 
@@ -59,12 +80,19 @@ const GraphScreen = ({ navigation }) => {
   useEffect(() => {
     getLatestGPA()
     getAllGPA()
+    getGoalGPA()
+    console.log('modalVisible:', modalVisible);
   }, [])
 
 
 
   return (
     <View style={styles.container}>
+        <InputModal
+      visible={modalVisible}
+      onCancel={() => setModalVisible(false)}
+      currentGoal = {goalGPA}
+            />
       <Text style={{ fontFamily: "Lexend-Medium", fontSize: 20, textAlign: "center", padding: 10 }}>Believe in yourself and you will succeed!</Text>
       <ScrollView>
         <View style={styles.timeSpent}>
@@ -76,7 +104,8 @@ const GraphScreen = ({ navigation }) => {
 
         <View style={styles.GPAContainer}>
           <GPAGoals color={'#9842F5'} title={'Current GPA:'} GPA={currentGPA} fontColor={'#fff'} />
-          <GPAGoals color={'#fff'} title={'Goal GPA:'} GPA={0} fontColor={'#000000'} />
+          <GPAGoals color={'#fff'} title={'Goal GPA:'} GPA={goalGPA} fontColor={'#000000'} onPress={showModal}/>
+        
         </View>
 
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -99,7 +128,7 @@ const GraphScreen = ({ navigation }) => {
           {parseFloat(listOfGPAs[listOfGPAs.length - 1]) > parseFloat(listOfGPAs[listOfGPAs.length - 2]) ?
             <Text style={{ fontSize: 15, fontFamily: "Lexend-Medium", color: '#fff' }}> An improvement! Keep it up!</Text> :
             <Text style={{ fontSize: 15, fontFamily: "Lexend-Medium", color: '#fff' }}> You got this! Don't give up!</Text>
-          }
+          } 
 
         </View>
 
