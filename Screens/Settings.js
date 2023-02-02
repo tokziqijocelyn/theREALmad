@@ -131,8 +131,8 @@ const Icons = () => {
             </View>
 
             <View style={styles.container2}>
-      <Ionicons name="musical-notes" size={28} color="black" style={{}} />
-      <Text style={{ fontSize: 18, fontFamily: "Lexend-Medium", paddingLeft: 45 }}>
+      <Ionicons name="musical-notes" size={28} color={theme.color} style={{}} />
+      <Text style={[{ fontSize: 18, fontFamily: "Lexend-Medium", paddingLeft: 45 }, {color:theme.color}]}>
         {songs[currentSong].title}
       </Text>
 
@@ -140,7 +140,7 @@ const Icons = () => {
   <AntDesign
     name="stepbackward"
     size={24}
-    color="black"
+    color={theme.color}
     onPress={() => {
       setCurrentSong(currentSong > 0 ? currentSong - 1 : songs.length - 1);
       sound.stopAsync();
@@ -151,7 +151,7 @@ const Icons = () => {
     <AntDesign
       name={isPlaying ? 'pause' : 'caretright'}
       size={24}
-      color="black"
+      color={theme.color}
       onPress={() => {
         if (isPlaying) {
           sound.pauseAsync();
@@ -166,7 +166,7 @@ const Icons = () => {
     <AntDesign
       name="caretright"
       size={24}
-      color="black"
+      color={theme.color}
       onPress={() => {
         playSound2();
       }}
@@ -175,7 +175,7 @@ const Icons = () => {
   <AntDesign
     name="stepforward"
     size={24}
-    color="black"
+    color={theme.color}
     onPress={() => {
       playNextSong();
       sound.stopAsync();

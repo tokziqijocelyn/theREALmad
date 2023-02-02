@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Keyboard, ScrollView
 } from 'react-native';
-import { firebase } from '../firebase';
+import  firebase from '../firebase';
 import { FontAwesome } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -18,8 +18,10 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Image, Button } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import DeleteModal from '../shared/DeleteModal';
+import themeContext from '../config/themeContext';
 
 export default TodoPage = () => {
+  const theme = useContext(themeContext)
   const navigation = useNavigation();
   const [newItem, setNewItem] = useState({
     isDone: false,
@@ -169,20 +171,21 @@ const updateItem = async (id) => {
 };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: theme.background}]}>
     
-    <View style={styles.container1}>
+    <View >
       <ScrollView
   horizontal={true}
   showsHorizontalScrollIndicator={false}
+  style={ {backgroundColor: theme.background}}
   >
-      <View style={styles.filterBar}>
-        <TouchableOpacity style={{backgroundColor:"#1F003E", 
+      <View style={[styles.filterBar,  {backgroundColor: theme.background}]}>
+        <TouchableOpacity style={{backgroundColor:theme.color, 
     padding:5, 
     borderRadius:8}}  onPress={() => {}}>
           <Text style={{paddingHorizontal:5, 
     fontSize:19,
-    color:"white"}}>All</Text>
+    color:theme.background}}>All</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.filterBar}>
@@ -215,12 +218,12 @@ const updateItem = async (id) => {
 
       {listOfItems.length > 0 && 
   <TouchableOpacity style={{ flexDirection:"row" ,padding:20, paddingLeft:300}} onPress= {() => setTrash(!trash)} >
-    <FontAwesome name="trash" size={24} color="black" />
+    <FontAwesome name="trash" size={24} color={theme.color}/>
   </TouchableOpacity>
 }
             
-      <View>
-        <View>
+      <View >
+        <View style={{backgroundColor: "red"}}>
         <DeleteModal
                 visible={modalVisible}
                 onDelete={() => {
@@ -235,7 +238,7 @@ const updateItem = async (id) => {
             {listOfItems.length > 0 ? 
             listOfItems.map((item) => {
               return (
-                <View style={{backgroundColor:"white"}}>
+                <View style={{backgroundColor:theme.background}}>
                 <View style={styles.listview}>
                 {trash && 
                   <TouchableOpacity  onPress={()=> {
@@ -266,17 +269,17 @@ const updateItem = async (id) => {
                 </View>
               );
             }) : 
-            <View style={{backgroundColor:"white", flex:1, justifyContent:"center", alignContent:"center", flexDirection:"row", paddingTop:50}}>
+            <View style={[{flex:1, justifyContent:"center", alignContent:"center", flexDirection:"row", paddingTop:50}, {backgroundColor: theme.background}]}>
             <Image
               source={require('../assets/emptylist2.png')}
-              style={{width:350, height: 450}}
+              style={{width:350, height: 400}}
             />
             </View>
             }
           </ScrollView>
         </View>
       </View>
-      <View style={{padding:50, backgroundColor:"white",alignItems:"center", justifyContent:"center", flex:1 , flexDirection:"row"}}>
+      <View style={[{padding:50,alignItems:"center", justifyContent:"center", flex:1 , flexDirection:"row"}, {backgroundColor: theme.background}]}>
           <TouchableOpacity style={{
       borderWidth: 1,
       borderColor: 'rgba(0,0,0,0)',
@@ -305,7 +308,7 @@ const updateItem = async (id) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
   },
   textDescription: {
     

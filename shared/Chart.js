@@ -23,7 +23,7 @@ const Chart = () => {
 
     useEffect(()=>{
         getAllGPA()
-    })
+    },[])
 
     const data = {
                     datasets: [

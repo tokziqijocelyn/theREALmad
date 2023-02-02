@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {
+import React, { useState, useEffect, useContext} from 'react';
+import { 
   View,
   Text,
   FlatList,
@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   Keyboard, ScrollView
 } from 'react-native';
-import { firebase } from '../firebase';
+import firebase from '../firebase';
+import themeContext from '../config/themeContext';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -18,6 +19,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 
 export default AddTask = () => {
+  const theme = useContext(themeContext)
   const navigation = useNavigation();
   const [newItem, setNewItem] = useState({
     isDone: false,
@@ -25,6 +27,7 @@ export default AddTask = () => {
     subject:''
   });
   const [listOfItems, setListOfItems] = useState([]);
+
    const [selected, setSelected] = React.useState("");
   
   const data = [
@@ -43,6 +46,7 @@ const addItem = async () => {
     const list = listOfItems;
 
     try {
+
       const id = firebase.firestore().collection("toDoCollection").doc().id;
       const docRef1 = await firebase.firestore().collection("toDoCollection").doc(id).set(newItem);
       alert("doc added to toDoCollection with ID: " + id);
@@ -78,9 +82,11 @@ const addItem = async () => {
       });
 
       Keyboard.dismiss();
+      console.log("ADD TASK::::::::::" + listOfItems)
+      console.log(listOfItems)
       navigation.navigate("RefreshedHome");
     } catch (error) {
-      alert("error adding doc" + error);
+      alert("error adding doc " + error);
     }
   }
 };
@@ -109,15 +115,15 @@ const addItem = async () => {
 
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: theme.background}]}>
     <View style={styles.container1}>
       <TouchableOpacity  onPress={() => navigation.navigate('RefreshedHome')}>
         <Ionicons name="close" size={24} color="#9842F5"  />
         
       </TouchableOpacity>
-      <Text style={styles.title2}>Add Task</Text>
+      <Text style={[styles.title2]}>Add Task</Text>
       </View>
-    <Text style={styles.title1}>Task Title :</Text>
+    <Text style={[styles.title1, {color:theme.color}]}>Task Title :</Text>
       
         <TextInput
           placeholder=""
@@ -130,7 +136,7 @@ const addItem = async () => {
           }}
           value={newItem.description}></TextInput>
         
-        <Text style={styles.title}>Subject :</Text>
+        <Text style={[styles.title, {color:theme.color}]}>Subject :</Text>
         <SelectList 
         setSelected={(val) => {
             setNewItem({
@@ -157,10 +163,10 @@ const addItem = async () => {
           </ScrollView>
         </View>
       
-      <View style={styles.container}>
+      <View style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
       
       
-    <View style={{marginTop:30, alignItems:'center'}}>
+    <View style={[{marginTop:30, alignItems:'center'}, {backgroundColor: theme.background}]}>
     <TouchableOpacity  style={{
       borderWidth: 1,
       borderColor: 'rgba(0,0,0,0)',
@@ -184,7 +190,6 @@ const addItem = async () => {
 const styles = StyleSheet.create({
   container: {
     paddingTop:40,
-    backgroundColor: 'white',
     
     flex:1
   },
@@ -224,6 +229,5 @@ const styles = StyleSheet.create({
     fontFamily:'Lexend-Medium',
     fontSize:20,
     paddingLeft:90,
-    color:"#2A0052"
   }
 });
