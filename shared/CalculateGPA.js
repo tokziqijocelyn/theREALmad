@@ -1,10 +1,14 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native'
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import {useNavigation} from '@react-navigation/native';
 import fireBaseApp from '../firebase';
 import {AntDesign} from '@expo/vector-icons';
+import themeContext from '../config/themeContext';
 
 export default function CalculateGPA() {
+    
+  const theme = useContext(themeContext)
+
     const navigation = useNavigation()
     const db = fireBaseApp.firestore()
 
@@ -64,7 +68,7 @@ export default function CalculateGPA() {
             styles.container
         }>
             <Text style={
-                styles.result
+                [styles.result, {color: theme.color}]
             }>
                 Current GPA: {finalGPA} </Text>
             <TouchableOpacity style={

@@ -4,14 +4,21 @@ import {
     Text,
     TextInput,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity,
+    ActivityIndicator,
 } from 'react-native'
 import DropDown from '../shared/DropDown'
 import CalculateGPA from '../shared/CalculateGPA'
-import React, { useState} from 'react'
+import React, { useState, useContext} from 'react'
 import fireBaseApp from '../firebase';
+import themeContext from '../config/themeContext'
+
 
 export default function List() {
+
+    const [isLoading, setIsLoading] = useState(false)
+
+    const theme = useContext(themeContext)
 
     const handleAddItem = async () => {
         const newItem = {
@@ -93,12 +100,12 @@ export default function List() {
                         return (
 
                             <View style={styles.List}>
-                                <Text style={{ fontFamily: "Lexend-Medium", fontSize: 20, margin: 5 }}>
+                                <Text style={[{ fontFamily: "Lexend-Medium", fontSize: 20, margin: 5,},{ color:theme.color}]}>
                                     {item.module}
                                 </Text>
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center', margin: 5 }}>
-                                    <Text style={{ fontFamily: "Lexend-Medium", fontSize: 15 }}>
+                                    <Text style={[styles.grade, {color:theme.color}]}>
                                         Grade
                                     </Text>
 
@@ -107,11 +114,11 @@ export default function List() {
                                         itemKey={item.key}
                                     />
 
-                                    <Text style={{ fontFamily: "Lexend-Medium", fontSize: 15 }}>
+                                    <Text style={[styles.grade, { color:theme.color}]}>
                                         Credits
                                     </Text>
                                     <TextInput 
-                                    keyboardType='numeric'
+                                    keyboardType='numeric' 
                                     style={styles.CUInput} 
                                     onChangeText={(text) => handleUpdateCU(text, item.key)
                                     } /> 
@@ -160,13 +167,15 @@ const styles = StyleSheet.create({
         fontFamily: "Lexend-Medium",
         margin: 20,
         fontSize: 20,
-        backgroundColor: "#9842F5",
+        backgroundColor: "#9842F5", 
         color: "#fff",
         borderRadius: 20,
         padding: 10,
         textAlign: 'center',
         alignContent: 'center',
         alignItems: 'center',
-        
     },
+    grade:{
+        fontFamily: "Lexend-Medium", fontSize: 15,
+    }
 })

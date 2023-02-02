@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View,Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {SelectList, MultipleSelectList }from 'react-native-dropdown-select-list'
 import { NavigationContainer } from '@react-navigation/native';
+import themeContext from '../config/themeContext';
 
 class AdjustTimerScreen1 extends React.Component {
   
@@ -43,13 +44,12 @@ class AdjustTimerScreen1 extends React.Component {
     return this.state.focus;
   };
 
-
-  
+  static contextType = themeContext
 
   render() {
-    
+    const theme = this.context
     return (
-      <View style={{flex:1, paddingTop:"10%", backgroundColor:"white"}}>
+      <View style={{flex:1, paddingTop:"10%",}}>
             
             <View>
             <SelectList 
@@ -125,8 +125,6 @@ class AdjustTimerScreen1 extends React.Component {
             </View>
 
             <View style={{marginTop:50, justifyContent:"center", alignItems:"center"}}>
-        <Text>Selected Value : </Text>
-        <Text style={{marginTop:10,color:'gray'}}>{this.state.focus} {this.state.longbreak} {this.state.shortbreak} {this.state.session} </Text>
         <TouchableOpacity  style={{
                             borderWidth: 1,
                             borderColor: 'rgba(0,0,0,0)',

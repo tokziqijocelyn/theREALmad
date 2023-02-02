@@ -1,13 +1,16 @@
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Chart from '../shared/Chart';
 import { AntDesign } from '@expo/vector-icons';
 import fireBaseApp from '../firebase';
 import GPAGoals from '../shared/GPAGoals';
 import InputModal from '../shared/inputModal'
+import themeContext from '../config/themeContext';
 
 const GraphScreen = ({ navigation }) => {
   const db = fireBaseApp.firestore()
+
+  const theme = useContext(themeContext)
 
   //Keep track of time of when user uses app
   const [appOpenDuration, setAppOpenDuration] = useState(0);
@@ -93,7 +96,7 @@ const GraphScreen = ({ navigation }) => {
       onCancel={() => setModalVisible(false)}
       currentGoal = {goalGPA}
             />
-      <Text style={{ fontFamily: "Lexend-Medium", fontSize: 20, textAlign: "center", padding: 10 }}>Believe in yourself and you will succeed!</Text>
+      <Text style={[{ fontFamily: "Lexend-Medium", fontSize: 20, textAlign: "center", padding: 10 }, {color: theme.color}]}>Believe in yourself and you will succeed!</Text>
       <ScrollView>
         <View style={styles.timeSpent}>
           <Text style={styles.timeSpentText}>

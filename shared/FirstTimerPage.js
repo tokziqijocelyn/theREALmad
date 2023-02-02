@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useContext} from 'react'
 import { View, TouchableHighlight, TouchableOpacity, StyleSheet, Text} from 'react-native'
 import * as moment from 'moment'
 //import PropTypes from 'prop-types';
@@ -22,8 +22,11 @@ import { FontAwesome5 } from '@expo/vector-icons'
 import Icons from './Icon';
 import AdjustTimerScreen1 from './SetTimer1'
 
+import themeContext from '../config/themeContext';
 
-export default class FirstTimerPage extends React.Component {
+export default class FirstTimerPage extends React.Component {    
+    
+
     constructor(props) {
         super(props)
         this.REST_PERIOD = 5;
@@ -321,7 +324,10 @@ export default class FirstTimerPage extends React.Component {
         }
     }
 
+    static contextType = themeContext
+
     render() {
+        const theme = this.context
         const {
             options = options == null ? this.defaultStyles : options,
             animated,
@@ -405,8 +411,7 @@ export default class FirstTimerPage extends React.Component {
                   <MaterialCommunityIcons
                     name="tune-vertical"
                     size={35}
-                    color="#2A0052"
-                    style = {{paddingRight:"3%", paddingTop: "4.2%"}}
+                    style = {[{paddingRight:"3%", paddingTop: "4.2%"},{ color:theme.color}]}
                     
                   />
                 </TouchableOpacity>

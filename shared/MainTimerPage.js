@@ -11,6 +11,7 @@ import timer from 'react-native-timer'
 import { Circle } from 'react-native-svg';
 import TimerHeader from "./TimerHeader";
 import SessionHeader from "./Sessioncounterheader"
+import themeContext from '../config/themeContext';
 
 import { Foundation } from '@expo/vector-icons';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -319,7 +320,11 @@ export default class Timer extends React.Component {
         }
     }
 
+    static contextType = themeContext
+
     render() {
+
+        const theme = this.context
         const {
             options = options == null ? this.defaultStyles : options,
             animated,
@@ -404,7 +409,7 @@ export default class Timer extends React.Component {
                         <MaterialCommunityIcons
                             name="tune-vertical"
                             size={35}
-                            color="#2A0052"
+                            color={theme.color}
                             style={{ paddingRight: "3%", paddingTop: "4.2%" }}
 
                         />

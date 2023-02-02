@@ -1,15 +1,16 @@
 
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform} from 'react-native';
 
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import Picker from '../shared/Picker'
 import Confirmation from '../shared/Confirmation'
+import themeContext from '../config/themeContext';
 
 
 export default function AddProject({ navigation }) {    
 
-
+  const theme = useContext(themeContext)
   //COLOR HANDLER
   const [color, setColor] = useState('');
 
@@ -72,18 +73,18 @@ export default function AddProject({ navigation }) {
 
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: theme.background}]}>
       <View style={styles.listOfInputs}>
-        <Text style={styles.inputHeader}>Title</Text>
+        <Text style={[styles.inputHeader, {color: theme.color}]}>Title</Text>
         <TextInput style={styles.nameInput} placeholder="Name of project/exam" placeholderTextColor="#D984E8"
           onChangeText={nameInputHandler} />
 
-        <Text style={styles.inputHeader}>Date</Text>
+        <Text style={[styles.inputHeader, {color: theme.color}]}>Date</Text>
         <TouchableOpacity onPress={() => { showMode('date') }}>
           <Text style={styles.dateInput}>{text}</Text>
         </TouchableOpacity>
 
-        <Text style={styles.inputHeader}>Color Picker</Text> 
+        <Text style={[styles.inputHeader, {color: theme.color}]}>Color Picker</Text> 
         <Picker onColorChange={onColorChange}/>
 
         {show ? <DateTimePicker testID='dateTimePicker' value={date} mode={mode} display='default' onChange={onChange} /> : null}

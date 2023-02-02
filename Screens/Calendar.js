@@ -1,15 +1,21 @@
 
-import { StyleSheet, Text, View, TouchableOpacity, TouchableHighlight, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Calendar } from 'react-native-calendars';
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import fireBaseApp from '../firebase';
 import DeleteModal from '../shared/DeleteModal';
 import { EventRegister } from 'react-native-event-listeners';
 
+import themeContext from '../config/themeContext';
+import { isLoaded } from 'expo-font';
+
 export default function CalendarApp({ navigation }) {
+    const theme = useContext(themeContext)
 
     const db = fireBaseApp.firestore()
+
+    const [loading, setLoading] = useState(false);
 
     const [markedDates, setMarkedDates] = useState({})
 
@@ -21,6 +27,7 @@ export default function CalendarApp({ navigation }) {
     
 
     const getAllData = async () => {
+        setLoading(true)
         try{const snapshot = await db.collection("newProjectDates").onSnapshot(snapshot => {
           const allProjects = snapshot.docs.map((doc) => {
             const docData = doc.data();
@@ -35,6 +42,7 @@ export default function CalendarApp({ navigation }) {
           });
           setProjectList(allProjects);
           console.log(projectList);
+          setLoading(false)
         });}
         catch(error){
             alert(error)
@@ -81,7 +89,7 @@ export default function CalendarApp({ navigation }) {
         <View style={styles.container} >
             <DeleteModal
                 visible={modalVisible}
-                onDelete={() => {
+                onDelete={() => { 
                 onDelete(itemId)
                 setModalVisible(false);
                 }}

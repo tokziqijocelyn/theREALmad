@@ -19,8 +19,6 @@ const Chart = () => {
 
         setListOfGPAs(allGPA)
             })
-
-       
     }
 
     useEffect(()=>{
@@ -28,7 +26,6 @@ const Chart = () => {
     })
 
     const data = {
-        
                     datasets: [
                         {
                             data:listOfGPAs

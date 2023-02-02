@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Audio } from 'expo-av';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import themeContext from '../config/themeContext';
 
 const Icons = ({ navigation }) => {
+  const theme = useContext(themeContext)
+
   const [press, setPress] = useState(false);
   const [sound, setSound] = React.useState(null);
 
@@ -34,7 +37,7 @@ const Icons = ({ navigation }) => {
         <MaterialCommunityIcons
           name={press ? 'music' : 'music-off'}
           size={35}
-          color="#2A0052"
+          color={theme.color}
           style={{ paddingRight: '80%' }}
         />
       </TouchableOpacity>

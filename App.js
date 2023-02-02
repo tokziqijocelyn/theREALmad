@@ -2,7 +2,7 @@ import React, {useEffect, useState, useContext} from 'react';
 import BottomNavigation from './BottomNavigation'
 
 import {View} from 'react-native'
-import { NavigationContainer, DefaultTheme} from '@react-navigation/native'
+import { NavigationContainer, DefaultTheme, DarkTheme} from '@react-navigation/native' 
 import SplashScreen from './splashScreen';
 
 import { EventRegister } from 'react-native-event-listeners';
@@ -17,14 +17,15 @@ const MyTheme = {
   },
 };
 
-const App = () => {
+const App = () => { 
+
+  const themeUsed = useContext(themeContext)
 
   const [darkMode, setDarkMode] = useState('false')
 
   useEffect(()=>{
       let eventListener = EventRegister.addEventListener("changeTheme", (data)=>{
           setDarkMode(data)
-          console.log(data)
       })
       return () => {
           EventRegister.removeEventListener(eventListener)
@@ -34,7 +35,7 @@ const App = () => {
 
   return (
     <themeContext.Provider value = {darkMode === true ? theme.dark : theme.light}>
-    <NavigationContainer theme={MyTheme}>
+    <NavigationContainer theme={darkMode === true? DarkTheme:MyTheme}>
       <BottomNavigation />
       </NavigationContainer>
   </themeContext.Provider>

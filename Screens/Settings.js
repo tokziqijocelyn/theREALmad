@@ -1,95 +1,216 @@
-import React, { useState , useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import themeContext from '../config/themeContext';
-import { View, Switch, StyleSheet, Text } from 'react-native';
+import {View, Switch, StyleSheet, Text} from 'react-native';
 import {
-  Ionicons,
-  FontAwesome,
-  MaterialIcons,
-  AntDesign,
-  Octicons,
-  MaterialCommunityIcons
+    Ionicons,
+    FontAwesome,
+    MaterialIcons,
+    AntDesign,
+    Octicons,
+    MaterialCommunityIcons
 } from '@expo/vector-icons'
 import ToggleSwitch from '../shared/switch'
-import { EventRegister } from 'react-native-event-listeners';
+import {EventRegister} from 'react-native-event-listeners';
+import {Audio} from 'expo-av';
 
 const Icons = () => {
 
-  const theme = useContext(themeContext)
+    const theme = useContext(themeContext)
 
-  const [darkMode, setDarkMode] = useState(false)
+    const [darkMode, setDarkMode] = useState(false)
 
-  const toggleDarkMode = (value) => {
-    setDarkMode(prev => !prev)
-    EventRegister.emit("changeTheme", value)
-  }
+    const toggleDarkMode = (value) => {
+        setDarkMode(prev => !prev)
+        EventRegister.emit("changeTheme", value)
+    }
 
-  const [notification, setNotification] = useState(false)
-  const toggleNotif = () => {
-    setNotification(prev => !prev)
-  }
+    const [notification, setNotification] = useState(false)
+    const toggleNotif = () => {
+        setNotification(prev => !prev)
+    }
 
-  return (
-    <View style={[styles.container, {backgroundColor: theme.background}]}>
-      <View style={styles.container1}>
-        <MaterialCommunityIcons name="weather-night" size={24} color={theme.color} style={{}} />
-        <Text style={[styles.text,{color: theme.color}]}>Night Mode</Text>
+    const [paused, setPaused] = React.useState(false);
 
-        <ToggleSwitch
-          isEnabled={darkMode}
-          toggleSwitch={toggleDarkMode}
-        />
+    const [sound, setSound] = React.useState();
+    const [currentSongTitle, setCurrentSongTitle] = React.useState("Song 1");
+    const [isPlaying, setIsPlaying] = React.useState(false);
 
-      </View>
-      <View style={styles.container1}>
-        <MaterialCommunityIcons name="bell-badge" size={24} color={theme.color} />
-        <Text style={[styles.text,{color: theme.color}]}>Notification</Text>
-        
-        <ToggleSwitch
-          isEnabled={notification}
-          toggleSwitch={toggleNotif} />
-      </View>
-      <View style={styles.container2}>
-        <Ionicons name="musical-notes" size={28} color={theme.color} />
-        <Text style={{ fontSize: 18, fontFamily: "Lexend-Medium", paddingLeft: 45 }} >Music</Text>
-        <AntDesign
-          name="caretleft"
-          size={13}
-          color={theme.color}
-          style={{ padding: 15, position: "absolute", paddingLeft: 200, marginTop: 6 }}
+    const [currentSong, setCurrentSong] = React.useState(0);
+    const songs = [
+        {
+            title: 'Lofi Hip Hop',
+            source: require('../assets/lofi-hip-hop-11489.mp3')
+        }, {
+            title: 'Lofi Study',
+            source: require('../assets/lofi-study-112191.mp3')
+        }, {
+            title: 'Empty Mind',
+            source: require('../assets/empty-mind-118973.mp3')
+        },
+    ];
 
-        />
-        <Text style={[{ padding: 15, position: "absolute", paddingLeft: 240, marginTop: 2, fontFamily: "Lexend-Medium", color: theme.color }]}>Forest</Text>
-        <AntDesign
-          name="caretright"
-          size={13}
-          color={theme.color}
-          style={{ padding: 15, position: "absolute", paddingLeft: 315, marginTop: 6 }}
+    const playNextSong = () => {
+        const nextSong = currentSong + 1;
+        if (nextSong >= songs.length) {
+            setCurrentSong(0);
+        } else {
+            setCurrentSong(nextSong);
+        }
+    };
 
-        />
-      </View>
+
+    async function playSound2() {
+        console.log('Loading Sound');
+        try {
+            const {sound: newSound} = await Audio.Sound.createAsync(songs[currentSong].source);
+            setSound(newSound);
+
+            console.log('Playing Sound');
+            await newSound.playAsync();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    React.useEffect(() => {
+        return sound ? () => {
+            console.log('Unloading Sound');
+            sound.unloadAsync();
+        } : undefined;
+    }, [sound]);
+
+    return (
+        <View style={
+            [
+                styles.container, {
+                    backgroundColor: theme.background
+                }
+            ]
+        }>
+            <View style={
+                styles.container1
+            }>
+                <MaterialCommunityIcons name="weather-night"
+                    size={24}
+                    color={
+                        theme.color
+                    }
+                    style={
+                        {}
+                    }/>
+                <Text style={
+                    [
+                        styles.text, {
+                            color: theme.color
+                        }
+                    ]
+                }>Night Mode</Text>
+
+                <ToggleSwitch isEnabled={darkMode}
+                    toggleSwitch={toggleDarkMode}/>
+
+            </View>
+            <View style={
+                styles.container1
+            }>
+                <MaterialCommunityIcons name="bell-badge"
+                    size={24}
+                    color={
+                        theme.color
+                    }/>
+                <Text style={
+                    [
+                        styles.text, {
+                            color: theme.color
+                        }
+                    ]
+                }>Notification</Text>
+
+                <ToggleSwitch isEnabled={notification}
+                    toggleSwitch={toggleNotif}/>
+            </View>
+
+            <View style={styles.container2}>
+      <Ionicons name="musical-notes" size={28} color="black" style={{}} />
+      <Text style={{ fontSize: 18, fontFamily: "Lexend-Medium", paddingLeft: 45 }}>
+        {songs[currentSong].title}
+      </Text>
+
+<View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '40%', paddingRight: 15 }}>
+  <AntDesign
+    name="stepbackward"
+    size={24}
+    color="black"
+    onPress={() => {
+      setCurrentSong(currentSong > 0 ? currentSong - 1 : songs.length - 1);
+      sound.stopAsync();
+      playSound2();
+    }}
+  />
+  {sound ? (
+    <AntDesign
+      name={isPlaying ? 'pause' : 'caretright'}
+      size={24}
+      color="black"
+      onPress={() => {
+        if (isPlaying) {
+          sound.pauseAsync();
+          setIsPlaying(false);
+        } else {
+          sound.playAsync();
+          setIsPlaying(true);
+        }
+      }}
+    />
+  ) : (
+    <AntDesign
+      name="caretright"
+      size={24}
+      color="black"
+      onPress={() => {
+        playSound2();
+      }}
+    />
+  )}
+  <AntDesign
+    name="stepforward"
+    size={24}
+    color="black"
+    onPress={() => {
+      playNextSong();
+      sound.stopAsync();
+      playSound2();
+    }}
+  />
+</View>
+
     </View>
-  );
+    </View>
+    );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white"
-  },
+    container: {
+        flex: 1,
+        backgroundColor: "white"
+    },
 
-  container2: {
-    flexDirection: "row",
-    paddingTop: 15,
-    paddingLeft: 48,
+    container2: {
+        flexDirection: "row",
+        paddingTop: 15,
+        paddingLeft: 48
 
-  },
-  container1: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-evenly",
-    padding: 15,
-  },
-  text: { fontSize: 18, fontFamily: "Lexend-Medium" },
+    },
+    container1: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-evenly",
+        padding: 15
+    },
+    text: {
+        fontSize: 18,
+        fontFamily: "Lexend-Medium"
+    }
 
 });
 

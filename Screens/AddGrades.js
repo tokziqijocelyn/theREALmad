@@ -2,12 +2,14 @@ import {
     View,
     StyleSheet,
 } from 'react-native'
-import React, { useEffect} from 'react'
+import React, { useEffect, useContext, useState} from 'react'
 import FlashList from './Flashlist';
-
+import themeContext from '../config/themeContext';
 import fireBaseApp from '../firebase';
 
 const AddGrades = ({ navigation }) => {
+
+    const theme = useContext(themeContext)
 
     const db = fireBaseApp.firestore()
 
@@ -31,9 +33,9 @@ const AddGrades = ({ navigation }) => {
     }, [])
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container,  {backgroundColor: theme.background}]}>
             <View style={
-                { margin: 10, }
+                [{ margin: 10, }]
             }>
 
                 <FlashList style={{ justifyContent: 'center' }} />
